@@ -117,13 +117,13 @@ main {
 
 .slider {
     display: flex;
-    width: 200%;
+    width: 300%;
     transition: transform 0.5s ease-in-out;
 }
 
 .slide {
+    flex: 0 0 100%;
     width: 100%;
-    flex-shrink: 0;   /* THIS FIXES THE EXTRA SCROLL */
 }
 
 /* ---------------- GRID ---------------- */
@@ -255,12 +255,13 @@ main {
 
 <div class="dashboard-header">
     <h1>User Dashboard</h1>
-    <p>Explore tasks and competitions.</p>
+    <p>Explore tasks, competitions, and startup teams.</p>
 </div>
 
 <div class="slide-nav">
     <button class="nav-btn active" onclick="showSlide(0)">Tasks</button>
     <button class="nav-btn" onclick="showSlide(1)">Competitions</button>
+    <button class="nav-btn" onclick="showSlide(2)">Startups</button>
 </div>
 
 <div class="slider-wrapper">
@@ -274,7 +275,6 @@ main {
 </div>
 
 <div class="task-grid">
-
 <div class="card">
 <span class="company-tag">Google Cloud</span>
 <h3 class="card-title">Build a Microservices API</h3>
@@ -285,29 +285,6 @@ main {
 </div>
 <button class="action-btn">View Details</button>
 </div>
-
-<div class="card">
-<span class="company-tag">Microsoft</span>
-<h3 class="card-title">Azure Web App Deployment</h3>
-<p class="card-desc">Deploy a production-ready app on Azure.</p>
-<div class="card-footer">
-<div class="points-badge">+ 300 Points</div>
-<div class="deadline">Ends in 5 Days</div>
-</div>
-<button class="action-btn">View Details</button>
-</div>
-
-<div class="card">
-<span class="company-tag">Startup India</span>
-<h3 class="card-title">Product Idea Validation</h3>
-<p class="card-desc">Validate a startup idea using real user research.</p>
-<div class="card-footer">
-<div class="points-badge">+ 700 Points</div>
-<div class="deadline">Ends in 4 Days</div>
-</div>
-<button class="action-btn">View Details</button>
-</div>
-
 </div>
 </section>
 
@@ -315,11 +292,10 @@ main {
 <section class="slide">
 <div class="section-header">
 <h2>Competitions</h2>
-<p>Participate in premium challenges with paid registration.</p>
+<p>Participate in premium challenges with prize pools.</p>
 </div>
 
 <div class="task-grid">
-
 <div class="card">
 <span class="company-tag">Global Hackathon</span>
 <h3 class="card-title">AI Innovation Challenge</h3>
@@ -330,18 +306,36 @@ main {
 </div>
 <button class="action-btn">Register Now</button>
 </div>
+</div>
+</section>
+
+<!-- STARTUPS -->
+<section class="slide">
+<div class="section-header">
+<h2>Startup Members</h2>
+<p>Engineers currently building startup units.</p>
+</div>
+
+<div class="task-grid">
+<div class="card">
+<h3 class="card-title">Alex Johnson</h3>
+<p class="card-desc">Full Stack Developer • Reputation: 1200 pts</p>
+<div class="card-footer">
+<div class="points-badge">Team Leader</div>
+<div class="deadline">Joined 3 months ago</div>
+</div>
+<button class="action-btn">View Profile</button>
+</div>
 
 <div class="card">
-<span class="company-tag">Startup India</span>
-<h3 class="card-title">Product Idea Validation</h3>
-<p class="card-desc">Premium version with investor panel & prize rewards.</p>
+<h3 class="card-title">Priya Nair</h3>
+<p class="card-desc">AI/ML Engineer • Reputation: 980 pts</p>
 <div class="card-footer">
-<div class="register-fee">₹799 Registration</div>
-<div class="deadline">Prize Pool ₹1,00,000</div>
+<div class="points-badge">Core Member</div>
+<div class="deadline">Joined 2 months ago</div>
 </div>
-<button class="action-btn">Register Now</button>
+<button class="action-btn">View Profile</button>
 </div>
-
 </div>
 </section>
 
