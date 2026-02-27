@@ -1,414 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>User Dashboard | Task Bridge</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard | Task Bridge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #333; min-height: 100vh; }
 
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+        /* --- Animations --- */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: #f4f7fa;
-    color: #333;
-    display: flex;
-    min-height: 100vh;
-}
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
 
-/* HEADER */
-header {
-    position: fixed;
-    top: 0; right: 0; left: 0;
-    height: 70px;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 40px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    z-index: 100;
-}
+        /* --- Navigation --- */
+        header {
+            position: fixed; top: 0; right: 0; left: 0; height: 70px;
+            background: white; display: flex; align-items: center;
+            justify-content: space-between; padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 100;
+        }
+        .logo-section h2 { font-size: 20px; font-weight: 700; color: #111; }
+        .user-nav { display: flex; align-items: center; gap: 20px; }
+        .user-info { display: flex; align-items: center; gap: 12px; }
+        .username { font-size: 14px; font-weight: 600; color: #444; }
+        .avatar {
+            width: 38px; height: 38px; border-radius: 50%;
+            background: #007BFF; color: white; display: flex;
+            align-items: center; justify-content: center;
+            font-weight: 600; font-size: 14px; border: 2px solid #fff;
+            box-shadow: 0 0 0 2px #eee;
+        }
+        .sign-out-btn {
+            padding: 8px 16px; border-radius: 8px; border: 1.5px solid #ff4d4d;
+            color: #ff4d4d; font-size: 13px; font-weight: 600; text-decoration: none;
+            transition: 0.3s;
+        }
+        .sign-out-btn:hover { background: #ff4d4d; color: white; }
 
-.logo-section h2 { font-size: 20px; font-weight: 700; }
+        /* --- Main Layout --- */
+        main { margin-top: 70px; padding: 40px; width: 100%; max-width: 1100px; margin-inline: auto; }
 
-.user-nav { display: flex; align-items: center; gap: 20px; }
-.user-info { display: flex; align-items: center; gap: 12px; }
+        .dashboard-header { margin-bottom: 25px; }
+        .dashboard-header h1 { font-size: 26px; font-weight: 600; }
+        .dashboard-header p { color: #64748b; font-size: 14px; }
 
-.avatar {
-    width: 38px; height: 38px;
-    border-radius: 50%;
-    background: #007BFF;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-}
+        /* --- Animated Banner --- */
+        .promo-banner {
+            width: 100%;
+            background: linear-gradient(-45deg, #007BFF, #00c6ff, #6a11cb, #2575fc);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            border-radius: 24px;
+            padding: 40px;
+            color: white;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 123, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
 
-.sign-out-btn {
-    padding: 8px 16px;
-    border-radius: 8px;
-    border: 1.5px solid #ff4d4d;
-    color: #ff4d4d;
-    font-size: 13px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: 0.3s;
-}
-.sign-out-btn:hover { background:#ff4d4d; color:white; }
+        .promo-content { animation: float 5s ease-in-out infinite; }
+        .promo-banner h2 { font-size: 24px; font-weight: 600; margin-bottom: 10px; }
+        .promo-banner p { font-size: 15px; opacity: 0.9; max-width: 600px; margin: 0 auto 20px; line-height: 1.5; }
+        
+        .banner-stats { display: flex; justify-content: center; gap: 30px; font-size: 13px; }
+        .stat-item { background: rgba(255,255,255,0.15); padding: 8px 18px; border-radius: 50px; backdrop-filter: blur(5px); }
 
-/* MAIN */
-main {
-    margin-top: 70px;
-    padding: 40px;
-    width: 100%;
-    max-width: 1200px;
-    margin-inline: auto;
-}
+        /* --- Task Cards --- */
+        .task-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+        .task-card {
+            background: white; border-radius: 20px; padding: 24px;
+            border: 1px solid #e2e8f0; transition: 0.3s;
+        }
+        .task-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: #007BFF;
+        }
+        .company-tag {
+            font-size: 11px; font-weight: 700; color: #007BFF;
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block;
+        }
+        .task-title { font-size: 18px; font-weight: 600; margin-bottom: 10px; color: #1e293b; }
+        .task-desc { font-size: 13.5px; color: #64748b; line-height: 1.6; margin-bottom: 20px; height: 65px; overflow: hidden; }
 
-.dashboard-header { margin-bottom: 30px; }
-.dashboard-header h1 { font-size: 28px; font-weight: 600; margin-bottom: 6px; }
-.dashboard-header p { font-size: 14px; color: #777; }
+        .task-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-top: 15px; border-top: 1px solid #f1f5f9;
+        }
+        .points-badge {
+            background: #f0f7ff; color: #007BFF; padding: 5px 12px;
+            border-radius: 6px; font-size: 12px; font-weight: 700;
+        }
+        .deadline { font-size: 12px; color: #94a3b8; }
+        .deadline strong { color: #ef4444; }
 
-/* NAV */
-.slide-nav { display: flex; gap: 15px; margin-bottom: 30px; }
-
-.nav-btn {
-    padding: 10px 20px;
-    border-radius: 8px;
-    border: none;
-    background: #eaeaea;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.nav-btn.active { background: #111; color: white; }
-
-/* SLIDER */
-.slider-wrapper { overflow: hidden; width: 100%; }
-.slider { display: flex; width: 300%; transition: transform 0.5s ease-in-out; }
-.slide { flex: 0 0 100%; width: 100%; }
-
-/* GRID */
-.section-header { margin-bottom: 25px; }
-.section-header h2 { font-size: 22px; font-weight: 600; margin-bottom: 6px; }
-.section-header p { font-size: 14px; color: #777; }
-
-.task-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 25px;
-}
-
-/* CARD */
-.card {
-    background: white;
-    border-radius: 20px;
-    padding: 24px;
-    border: 2px solid #f0f0f0;
-    transition: 0.3s;
-    cursor: pointer;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.08);
-    border-color: #007BFF;
-}
-
-.company-tag {
-    font-size: 11px;
-    font-weight: 700;
-    color: #007BFF;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-    display: block;
-}
-
-.card-title { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
-.card-desc { font-size: 14px; color: #666; line-height: 1.6; margin-bottom: 20px; }
-
-.card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-}
-
-.points-badge {
-    background: #eef6ff;
-    color: #007BFF;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-.register-fee {
-    background: #fff0f0;
-    color: #ff4d4d;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-.deadline { font-size: 12px; color: #999; }
-
-.action-btn {
-    width: 100%;
-    margin-top: 20px;
-    padding: 12px;
-    background: #f4f7fa;
-    border: none;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.card:hover .action-btn {
-    background: #111;
-    color: #fff;
-}
-
-/* MODAL */
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-}
-
-.modal {
-    background: white;
-    width: 90%;
-    max-width: 600px;
-    border-radius: 16px;
-    padding: 30px;
-    position: relative;
-}
-
-.modal textarea {
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    resize: vertical;
-    margin: 20px 0;
-    font-family: 'Inter', sans-serif;
-}
-
-.close-btn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: #f4f4f4;
-    border: none;
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.submit-btn {
-    background: #111;
-    color: white;
-    padding: 10px 18px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
-</style>
+        .submit-btn {
+            width: 100%; margin-top: 15px; padding: 12px;
+            background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;
+            font-size: 14px; font-weight: 600; color: #1e293b;
+            cursor: pointer; transition: 0.2s;
+        }
+        .task-card:hover .submit-btn { background: #111; color: #fff; border-color: #111; }
+    </style>
 </head>
 <body>
 
-<header>
-    <div class="logo-section"><h2>Task Bridge</h2></div>
-    <div class="user-nav">
-        <div class="user-info">
-            <span>Alex Johnson</span>
-            <div class="avatar">AJ</div>
+    <header>
+        <div class="logo-section"><h2>Task Bridge</h2></div>
+        <div class="user-nav">
+            <div class="user-info">
+                <span class="username">Alex Johnson</span>
+                <div class="avatar">AJ</div>
+            </div>
+            <a href="login.html" class="sign-out-btn">Sign Out</a>
         </div>
-        <a href="#" class="sign-out-btn">Sign Out</a>
-    </div>
-</header>
+    </header>
 
-<main>
+    <main>
+        <section class="dashboard-header">
+            <h1>User Dashboard</h1>
+            <p>Ready to level up? Complete tasks to earn credentials.</p>
+        </section>
 
-<div class="dashboard-header">
-    <h1>User Dashboard</h1>
-    <p>Explore tasks, competitions, and startup teams.</p>
-</div>
+        <div class="promo-banner">
+            <div class="promo-content">
+                <h2>Accelerate Your Career</h2>
+                <p>Complete real-world projects assigned by top-tier companies. Build your on-chain resume and earn points for verified skill excellence.</p>
+                <div class="banner-stats">
+                    <div class="stat-item">🚀 12 New Projects</div>
+                    <div class="stat-item">🏆 4.8k Total Points Available</div>
+                    <div class="stat-item">🔥 3 Active Bounties</div>
+                </div>
+            </div>
+        </div>
 
-<div class="slide-nav">
-    <button class="nav-btn active" onclick="showSlide(0)">Tasks</button>
-    <button class="nav-btn" onclick="showSlide(1)">Competitions</button>
-    <button class="nav-btn" onclick="showSlide(2)">Startups</button>
-</div>
+        <div class="task-grid">
+            <div class="task-card">
+                <span class="company-tag">Google Cloud</span>
+                <h3 class="task-title">Build a Microservices API</h3>
+                <p class="task-desc">Deploy a robust Node.js backend using Kubernetes. Focus on high availability and seamless data scaling.</p>
+                <div class="task-footer">
+                    <div class="points-badge">+ 500 Pts</div>
+                    <div class="deadline">Ends: <strong>2 Days</strong></div>
+                </div>
+                <button class="submit-btn">View Details</button>
+            </div>
 
-<div class="slider-wrapper">
-<div class="slider">
+            <div class="task-card">
+                <span class="company-tag">Stripe</span>
+                <h3 class="task-title">Payment Flow UI Fix</h3>
+                <p class="task-desc">Debug layout shifts on mobile checkout pages. Improve the conversion rate by refining CSS animations.</p>
+                <div class="task-footer">
+                    <div class="points-badge">+ 350 Pts</div>
+                    <div class="deadline">Ends: <strong>14 Hours</strong></div>
+                </div>
+                <button class="submit-btn">View Details</button>
+            </div>
 
-<!-- TASKS -->
-<section class="slide">
-<div class="section-header">
-<h2>Available Tasks</h2>
-<p>Complete short-term industry tasks and earn points.</p>
-</div>
-<div class="task-grid">
-<div class="card">
-<span class="company-tag">Google Cloud</span>
-<h3 class="card-title">Build a Microservices API</h3>
-<p class="card-desc">Design scalable REST API using Node.js and Docker.</p>
-<div class="card-footer">
-<div class="points-badge">+ 500 Points</div>
-<div class="deadline">Ends in 2 Days</div>
-</div>
-<button class="action-btn">View Details</button>
-</div>
-</div>
-</section>
+            <div class="task-card">
+                <span class="company-tag">Tesla</span>
+                <h3 class="task-title">Data Visualization Module</h3>
+                <p class="task-desc">Integrate real-time sensors into a React dashboard. Use WebSockets to handle high-frequency data streams.</p>
+                <div class="task-footer">
+                    <div class="points-badge">+ 800 Pts</div>
+                    <div class="deadline">Ends: <strong>5 Days</strong></div>
+                </div>
+                <button class="submit-btn">View Details</button>
+            </div>
+        </div>
+    </main>
 
-<!-- COMPETITIONS -->
-<section class="slide">
-<div class="section-header">
-<h2>Competitions</h2>
-<p>Participate in premium challenges with prize pools.</p>
-</div>
-<div class="task-grid">
-<div class="card">
-<span class="company-tag">Global Hackathon</span>
-<h3 class="card-title">AI Innovation Challenge</h3>
-<p class="card-desc">Build an AI-powered productivity tool.</p>
-<div class="card-footer">
-<div class="register-fee">₹499 Registration</div>
-<div class="deadline">Prize Pool ₹50,000</div>
-</div>
-<button class="action-btn">Register Now</button>
-</div>
-</div>
-</section>
-
-<!-- STARTUPS -->
-<section class="slide">
-<div class="section-header">
-<h2>Startup Members</h2>
-<p>Engineers currently building startup units.</p>
-</div>
-<div class="task-grid">
-<div class="card">
-<h3 class="card-title">Alex Johnson</h3>
-<p class="card-desc">Full Stack Developer • Reputation: 1200 pts</p>
-<div class="card-footer">
-<div class="points-badge">Team Leader</div>
-<div class="deadline">Joined 3 months ago</div>
-</div>
-<button class="action-btn">View Profile</button>
-</div>
-</div>
-</section>
-
-</div>
-</div>
-</main>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="taskModal">
-    <div class="modal">
-        <button class="close-btn" onclick="closeModal()">✕</button>
-        <h3 id="modalTitle"></h3>
-        <p id="modalDesc"></p>
-        <textarea id="modalTextarea"></textarea>
-        <button class="submit-btn" id="modalButton"></button>
-    </div>
-</div>
-
-<script>
-function showSlide(index) {
-    const slider = document.querySelector(".slider");
-    const buttons = document.querySelectorAll(".nav-btn");
-    slider.style.transform = `translateX(-${index * 100}%)`;
-    buttons.forEach(btn => btn.classList.remove("active"));
-    buttons[index].classList.add("active");
-}
-
-document.querySelectorAll(".card").forEach(card => {
-    card.addEventListener("click", function(e) {
-        if (!e.target.classList.contains("action-btn")) openModal(this);
-    });
-});
-
-document.querySelectorAll(".action-btn").forEach(btn => {
-    btn.addEventListener("click", function(e) {
-        e.stopPropagation();
-        openModal(this.closest(".card"));
-    });
-});
-
-function openModal(card) {
-    const title = card.querySelector(".card-title")?.innerText || "";
-    const desc = card.querySelector(".card-desc")?.innerText || "";
-    const section = card.closest(".slide").querySelector("h2").innerText;
-
-    document.getElementById("modalTitle").innerText = title;
-    document.getElementById("modalDesc").innerText = desc;
-
-    const textarea = document.getElementById("modalTextarea");
-    const button = document.getElementById("modalButton");
-
-    if (section === "Startup Members") {
-        textarea.placeholder = "Write your message...";
-        textarea.style.height = "100px";
-        button.innerText = "Send Message";
-    } else {
-        textarea.placeholder = "Submit your task solution here...";
-        textarea.style.height = "180px";
-        button.innerText = "Submit Task";
-    }
-
-    document.getElementById("taskModal").style.display = "flex";
-}
-
-function closeModal() {
-    document.getElementById("taskModal").style.display = "none";
-}
-
-document.getElementById("taskModal").addEventListener("click", function(e) {
-    if (e.target === this) closeModal();
-});
-</script>
-
-    <script>
-        function filterTasks(category) {
-            const cards = document.querySelectorAll('.task-card');
-            const buttons = document.querySelectorAll('.filter-btn');
-
-            // Handle active button state
-            buttons.forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.innerText.toLowerCase().includes(category)) {
-                    btn.classList.add('active');
-                } else if (category === 'all' && btn.innerText.toLowerCase().includes('all')) {
-                    btn.classList.add('active');
-                }
-            });
-
-            // Handle filtering logic
-            cards.forEach(card => {
-                if (category === 'all' || card.getAttribute('data-category') === category) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
-        }
-    </script>
 </body>
 </html>
