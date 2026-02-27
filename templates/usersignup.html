@@ -181,31 +181,31 @@
     <div class="login-box" id="box">
         <h2>User Sign Up</h2>
         <p class="subtitle">Showcase your skills to top companies</p>
-        <form id="signupForm">
+        <form id="signupForm" method="POST" action="/adduser">
             <div class="form-grid">
                 <div class="full-width">
-                    <label class="input-label">Full Name</label>
-                    <input type="text" placeholder="Alex Johnson" required>
+                    <label class="input-label" >Full Name</label>
+                    <input type="text" name="name" placeholder="Alex Johnson" required>
                 </div>
 
                 <div class="full-width">
                     <label class="input-label">Skill Sets</label>
-                    <textarea placeholder="e.g. Python, React, UI Design, Data Structures..." required></textarea>
+                    <textarea name="skills" placeholder="e.g. Python, React, UI Design, Data Structures..." required></textarea>
                 </div>
 
                 <div class="full-width">
                     <label class="input-label">Portfolio / Project Links</label>
-                    <input type="url" placeholder="https://github.com/yourusername or portfolio-link.com">
+                    <input type="url" name="portfolio" placeholder="https://github.com/yourusername or portfolio-link.com">
                 </div>
 
                 <div class="full-width">
                     <label class="input-label">Personal Email</label>
-                    <input type="email" placeholder="alex@example.com" required>
+                    <input type="email" name="email" placeholder="alex@example.com" required>
                 </div>
 
                 <div>
                     <label class="input-label">Password</label>
-                    <input type="password" id="password" placeholder="••••••••" required>
+                    <input type="password" name="password" id="password" placeholder="••••••••" required>
                 </div>
                 <div>
                     <label class="input-label">Confirm</label>
