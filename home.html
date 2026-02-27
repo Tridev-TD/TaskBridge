@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TaskBridge | Proof of Work. Not Resumes.</title>
+
+<style>
+:root {
+    --primary: #0F172A;
+    --accent: #3B82F6;
+    --neon: #22D3EE;
+    --bg: #020617;
+    --text: #E2E8F0;
+    --card-bg: rgba(255, 255, 255, 0.05);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+/* Particle Canvas */
+#particles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+/* HEADER */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 3rem;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(59,130,246,0.2);
+}
+
+header h2 {
+    color: var(--neon);
+}
+
+nav a {
+    color: white;
+    margin-left: 25px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: var(--neon);
+}
+
+/* HERO SECTION */
+.hero {
+    padding: 150px 20px 120px 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(59,130,246,0.15);
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, #3B82F6, #22D3EE);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+    max-width: 650px;
+    margin: auto;
+    color: #94A3B8;
+    margin-bottom: 30px;
+}
+
+.btn {
+    padding: 12px 28px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, #3B82F6, #22D3EE);
+    color: white;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 0 20px #22D3EE;
+}
+
+/* FEATURES SECTION */
+.features {
+    padding: 100px 40px;
+    text-align: center;
+    background: rgb(255, 255, 255);
+    border-bottom: 1px solid rgba(59,130,246,0.15);
+}
+
+.features h2 {
+    font-size: 2rem;
+    margin-bottom: 70px;
+    color: black;
+}
+
+.feature-grid {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+/* GLASS CARDS */
+.card {
+    width: 340px;
+    min-height: 280px;
+    padding: 35px;
+    border-radius: 20px;
+    background: var(--card-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    transition: 0.4s ease;
+}
+
+.card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 0 30px rgba(34, 211, 238, 0.4);
+    border: 1px solid var(--neon);
+}
+
+.card h3 {
+    color: #0F172A;  /* dark navy */
+    margin-bottom: 10px;
+}
+
+.card .highlight {
+     color: #2563EB;  /* strong blue */
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.card p {
+    color: #334155;  /* dark gray */
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* FOOTER */
+footer {
+    padding: 40px;
+    text-align: center;
+    background: rgba(15, 23, 42, 0.8);
+}
+
+footer p {
+    color: #94A3B8;
+}
+
+@media(max-width:768px){
+    .hero h1{
+        font-size: 2rem;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<!-- HEADER -->
+<header>
+    <h2>TaskBridge</h2>
+    <nav>
+        <a href="#">How It Works</a>
+        <a href="#">Login</a>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <h1>Replace Resumes with <span id="typing"></span></h1>
+    <p>
+        A decentralized micro-work platform enabling engineers to earn reputation,
+        income, and startup-level experience through proof-of-work collaboration.
+    </p>
+    <button class="btn btn-primary">Get Started</button>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+    <h2>Why TaskBridge?</h2>
+    <div class="feature-grid" id="features"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2026 TaskBridge | Proof of Work. Not Interviews.</p>
+</footer>
+
+<script>
+/* Typing Effect */
+const words = ["Proof of Work", "Real Skills", "Verified Experience"];
+let i = 0, j = 0, currentWord = "", isDeleting = false;
+const typingElement = document.getElementById("typing");
+
+function type() {
+    currentWord = words[i];
+    if (isDeleting) {
+        typingElement.textContent = currentWord.substring(0, j--);
+        if (j < 0) { isDeleting = false; i = (i + 1) % words.length; }
+    } else {
+        typingElement.textContent = currentWord.substring(0, j++);
+        if (j > currentWord.length) { isDeleting = true; }
+    }
+    setTimeout(type, isDeleting ? 50 : 100);
+}
+type();
+
+/* Feature Cards */
+const features = [
+{
+    title: "Task-Based Hiring",
+    highlight: "Prove skills through execution.",
+    desc: "Companies post short-term technical work. Engineers complete measurable tasks instead of going through interviews."
+},
+{
+    title: "DAO Team Collaboration",
+    highlight: "Democratic skill-based leadership.",
+    desc: "Engineers form teams, divide responsibilities, and vote for temporary leaders based on expertise and performance."
+},
+{
+    title: "Reputation & Startup Growth",
+    highlight: "Build credibility. Launch startups.",
+    desc: "Earn verified reputation points and evolve high-performing teams into decentralized startup units."
+}
+];
+
+const featureContainer = document.getElementById("features");
+
+features.forEach(feature => {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.innerHTML = `
+        <h3>${feature.title}</h3>
+        <div class="highlight">${feature.highlight}</div>
+        <p>${feature.desc}</p>
+    `;
+    featureContainer.appendChild(card);
+});
+
+/* Particle Background */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particlesArray = [];
+
+class Particle {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2;
+        this.speedX = (Math.random() - 0.5) * 0.6;
+        this.speedY = (Math.random() - 0.5) * 0.6;
+    }
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x > canvas.width) this.x = 0;
+        if (this.x < 0) this.x = canvas.width;
+        if (this.y > canvas.height) this.y = 0;
+        if (this.y < 0) this.y = canvas.height;
+    }
+    draw() {
+        ctx.fillStyle = "rgba(59,130,246,0.8)";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+function init() {
+    particlesArray = [];
+    for (let i = 0; i < 120; i++) {
+        particlesArray.push(new Particle());
+    }
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particlesArray.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animate);
+}
+
+init();
+animate();
+
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    init();
+});
+</script>
+
+</body>
+</html> 
