@@ -1,42 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Company Registration | Talent Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            75% { transform: translateX(8px); }
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-8px);
+            }
+
+            75% {
+                transform: translateX(8px);
+            }
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; padding: 20px; color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
         }
 
         .login-box {
-            background: white; padding: 40px; border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-            width: 100%; max-width: 480px;
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 480px;
             animation: fadeInUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
         }
 
-        .shake { animation: shake 0.3s ease-in-out; }
+        .shake {
+            animation: shake 0.3s ease-in-out;
+        }
 
-        h2 { text-align: center; margin-bottom: 8px; font-weight: 600; font-size: 26px; }
-        p.subtitle { text-align: center; color: #777; font-size: 14px; margin-bottom: 25px; }
+        h2 {
+            text-align: center;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 26px;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
 
         /* --- Modern Custom Radio Design --- */
         .radio-group {
@@ -87,7 +129,7 @@
         }
 
         /* Border Glow on Selection */
-        .radio-option input:checked ~ .custom-radio {
+        .radio-option input:checked~.custom-radio {
             border-color: #007BFF;
             box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
         }
@@ -106,147 +148,192 @@
             background: #007BFF;
         }
 
-        .radio-option input:checked ~ .custom-radio:after {
+        .radio-option input:checked~.custom-radio:after {
             display: block;
         }
 
-        .radio-option input:checked ~ span {
+        .radio-option input:checked~span {
             color: #000;
             font-weight: 600;
         }
 
         /* --- Form Grid --- */
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 15px; }
-        .full-width { grid-column: span 2; }
-
-        label.input-label {
-            display: block; font-size: 11px; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.8px;
-            margin-bottom: 6px; color: #999; margin-top: 5px;
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0 15px;
         }
 
-        input[type="text"], input[type="email"], input[type="password"] {
-            width: 100%; padding: 12px 16px; margin-bottom: 15px;
-            border: 1.5px solid #eee; border-radius: 12px;
-            font-size: 14px; outline: none; background: #fafafa;
-            transition: all 0.3s ease; font-family: inherit;
+        .full-width {
+            grid-column: span 2;
+        }
+
+        label.input-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 6px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 15px;
+            border: 1.5px solid #eee;
+            border-radius: 12px;
+            font-size: 14px;
+            outline: none;
+            background: #fafafa;
+            transition: all 0.3s ease;
+            font-family: inherit;
         }
 
         input:focus {
-            border-color: #007BFF; background: #fff;
+            border-color: #007BFF;
+            background: #fff;
             box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);
             transform: translateY(-2px);
         }
 
         button {
-            width: 100%; padding: 14px; background: #111; color: white;
-            border: none; border-radius: 12px; font-size: 16px;
-            font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+            width: 100%;
+            padding: 14px;
+            background: #111;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
             margin-top: 10px;
         }
 
-        button:hover { 
-            background: #000; 
-            transform: scale(1.02); 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
-        }
-        
-        .error-msg {
-            color: #ff4d4d; font-size: 12px; grid-column: span 2;
-            text-align: center; margin-bottom: 15px; display: none; font-weight: 600;
+        button:hover {
+            background: #000;
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
 
-        .footer-text { text-align: center; margin-top: 25px; font-size: 14px; color: #666; }
-        .footer-text a { color: #007BFF; text-decoration: none; font-weight: 600; }
+        .error-msg {
+            color: #ff4d4d;
+            font-size: 12px;
+            grid-column: span 2;
+            text-align: center;
+            margin-bottom: 15px;
+            display: none;
+            font-weight: 600;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .footer-text a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: 600;
+        }
     </style>
 </head>
+
 <body>
 
-<div class="login-box" id="registrationBox">
-    <h2>Company Signup</h2>
-    <p class="subtitle">Join our talent network</p>
+    <div class="login-box" id="registrationBox">
+        <h2>Company Signup</h2>
+        <p class="subtitle">Join our talent network</p>
 
-    <form id="companySignupForm" method="POST">
-        
-        <label class="input-label">Organization Type</label>
-        <div class="radio-group">
-            <label class="radio-option">
-                <input type="radio" name="org_type" value="mnc" checked>
-                <span class="custom-radio"></span>
-                <span>MNC</span>
-            </label>
-            <label class="radio-option">
-                <input type="radio" name="org_type" value="startup">
-                <span class="custom-radio"></span>
-                <span>Startup</span>
-            </label>
-            <label class="radio-option">
-                <input type="radio" name="org_type" value="other">
-                <span class="custom-radio"></span>
-                <span>Other</span>
-            </label>
-        </div>
+        <form id="companySignupForm" method="POST">
 
-        <div class="form-grid">
-            <div class="full-width">
-                <label class="input-label">Company Name</label>
-                <input type="text" name="company_name" placeholder="e.g. Acme Industries" required>
-            </div>
-            
-            <div class="full-width">
-                <label class="input-label">Official Email ID</label>
-                <input type="email" name="email" placeholder="hr@acme.com" required>
+            <label class="input-label">Organization Type</label>
+            <div class="radio-group">
+                <label class="radio-option">
+                    <input type="radio" name="org_type" value="mnc" checked>
+                    <span class="custom-radio"></span>
+                    <span>MNC</span>
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="org_type" value="startup">
+                    <span class="custom-radio"></span>
+                    <span>Startup</span>
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="org_type" value="other">
+                    <span class="custom-radio"></span>
+                    <span>Other</span>
+                </label>
             </div>
 
-            <div class="full-width">
-                <label class="input-label">License / Registration Number</label>
-                <input type="text" name="license_no" placeholder="Enter CIN or Registration ID" required>
+            <div class="form-grid">
+                <div class="full-width">
+                    <label class="input-label">Company Name</label>
+                    <input type="text" name="company_name" placeholder="e.g. Acme Industries" required>
+                </div>
+
+                <div class="full-width">
+                    <label class="input-label">Official Email ID</label>
+                    <input type="email" name="email" placeholder="hr@acme.com" required>
+                </div>
+
+                <div class="full-width">
+                    <label class="input-label">License / Registration Number</label>
+                    <input type="text" name="license_no" placeholder="Enter CIN or Registration ID" required>
+                </div>
+
+                <div>
+                    <label class="input-label">Password</label>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                </div>
+
+                <div>
+                    <label class="input-label">Confirm Password</label>
+                    <input type="password" id="confirm_password" placeholder="••••••••" required>
+                </div>
+
+                <p id="error" class="error-msg">Passwords do not match!</p>
             </div>
 
-            <div>
-                <label class="input-label">Password</label>
-                <input type="password" id="password" name="password" placeholder="••••••••" required>
-            </div>
+            <button type="submit">Create Account</button>
+        </form>
 
-            <div>
-                <label class="input-label">Confirm Password</label>
-                <input type="password" id="confirm_password" placeholder="••••••••" required>
-            </div>
-            
-            <p id="error" class="error-msg">Passwords do not match!</p>
-        </div>
+        <p class="footer-text">
+            Already registered? <a href="/login ">Sign In</a>
+        </p>
+    </div>
 
-        <button type="submit">Create Account</button>
-    </form>
+    <script>
+        const form = document.getElementById('companySignupForm');
+        const box = document.getElementById('registrationBox');
+        const password = document.getElementById('password');
+        const confirm = document.getElementById('confirm_password');
+        const errorMsg = document.getElementById('error');
 
-    <p class="footer-text">
-        Already registered? <a href="login.html">Sign In</a>
-    </p>
-</div>
+        form.addEventListener('submit', function (e) {
+            if (password.value !== confirm.value) {
+                e.preventDefault();
+                errorMsg.style.display = 'block';
+                box.classList.add('shake');
+                confirm.style.borderColor = '#ff4d4d';
 
-<script>
-    const form = document.getElementById('companySignupForm');
-    const box = document.getElementById('registrationBox');
-    const password = document.getElementById('password');
-    const confirm = document.getElementById('confirm_password');
-    const errorMsg = document.getElementById('error');
-
-    form.addEventListener('submit', function(e) {
-        if (password.value !== confirm.value) {
-            e.preventDefault();
-            errorMsg.style.display = 'block';
-            box.classList.add('shake');
-            confirm.style.borderColor = '#ff4d4d';
-            
-            setTimeout(() => {
-                box.classList.remove('shake');
-            }, 400);
-        } else {
-            errorMsg.style.display = 'none';
-            confirm.style.borderColor = '#eee';
-        }
-    });
-</script>
+                setTimeout(() => {
+                    box.classList.remove('shake');
+                }, 400);
+            } else {
+                errorMsg.style.display = 'none';
+                confirm.style.borderColor = '#eee';
+            }
+        });
+    </script>
 
 </body>
+
 </html>
