@@ -10,7 +10,26 @@ app = Flask(__name__)
 def index():
     return render_template('home.html')
 
+@app.route('/home.html')
+def home(): 
+    return render_template('home.html')
 
+@app.route('/login.html')
+def login():
+    return render_template('login.html')
+
+# @app.route('/login')
+# def login_post():
+#     return
+     
+
+@app.route('/company-signup')
+def company_signup():
+    return render_template('companysignup.html')
+
+@app.route('/user-signup')
+def user_signup():
+    return render_template('usersignup.html')
 
 
 
