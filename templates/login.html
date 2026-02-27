@@ -181,7 +181,7 @@
     <div class="login-box">
         <h2>Login</h2>
         <p class="subtitle">Welcome back to the portal</p>
-        <form method="POST">
+        <form method="POST" action="/login">
             <div class="role-toggle-container">
                 <input type="radio" id="user-role" name="role" value="user" checked>
                 <label for="user-role" class="role-label">User</label>
@@ -193,7 +193,7 @@
             <input type="email" name="email" placeholder="alex@example.com" required>
             <label class="input-label">Password</label>
             <input type="password" name="password" placeholder="••••••••" required>
-            <button type="button" onclick="POST" action="/login">Sign In</button>
+            <button type="submit">Sign In</button>
         </form>
         <p class="footer-text">Don't have an account? <a href="/user-signup" id="signup-link">Join now</a></p>
     </div>
