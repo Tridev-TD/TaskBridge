@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard | Talent Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: #f4f7fa; color: #333; display: flex; min-height: 100vh; }
+
+        /* --- Top Navigation --- */
+        header {
+            position: fixed; top: 0; right: 0; left: 0; height: 70px;
+            background: white; display: flex; align-items: center;
+            justify-content: space-between; padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 100;
+        }
+
+        .logo-section h2 { font-size: 20px; font-weight: 700; color: #111; letter-spacing: -0.5px; }
+
+        .user-nav { display: flex; align-items: center; gap: 20px; }
+
+        .user-info { display: flex; align-items: center; gap: 12px; }
+        .username { font-size: 14px; font-weight: 600; color: #444; }
+        
+        .avatar {
+            width: 38px; height: 38px; border-radius: 50%;
+            background: #007BFF; color: white; display: flex;
+            align-items: center; justify-content: center;
+            font-weight: 600; font-size: 14px; border: 2px solid #fff;
+            box-shadow: 0 0 0 2px #eee;
+        }
+
+        .sign-out-btn {
+            padding: 8px 16px; border-radius: 8px; border: 1.5px solid #ff4d4d;
+            color: #ff4d4d; font-size: 13px; font-weight: 600; text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .sign-out-btn:hover { background: #ff4d4d; color: white; }
+
+        /* --- Main Content Area --- */
+        main { margin-top: 70px; padding: 40px; width: 100%; max-width: 1200px; margin-inline: auto; }
+
+        .dashboard-header { margin-bottom: 30px; }
+        .dashboard-header h1 { font-size: 28px; font-weight: 600; margin-bottom: 8px; }
+        .dashboard-header p { color: #777; font-size: 15px; }
+
+        /* --- Task Cards Grid --- */
+        .task-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .task-card {
+            background: white; border-radius: 20px; padding: 24px;
+            border: 2px solid #f0f0f0; transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+
+        .task-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            border-color: #007BFF;
+        }
+
+        .company-tag {
+            font-size: 11px; font-weight: 700; color: #007BFF;
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: block;
+        }
+
+        .task-title { font-size: 18px; font-weight: 600; margin-bottom: 12px; color: #111; }
+        
+        .task-desc { font-size: 14px; color: #666; line-height: 1.6; margin-bottom: 20px; }
+
+        .task-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-top: 20px; border-top: 1px solid #eee;
+        }
+
+        .points-badge {
+            background: #eef6ff; color: #007BFF; padding: 6px 12px;
+            border-radius: 8px; font-size: 13px; font-weight: 700;
+        }
+
+        .deadline { font-size: 12px; color: #999; display: flex; align-items: center; gap: 5px; }
+        .deadline strong { color: #ff4d4d; }
+
+        .submit-btn {
+            width: 100%; margin-top: 20px; padding: 12px;
+            background: #f4f7fa; border: none; border-radius: 10px;
+            font-size: 14px; font-weight: 600; color: #444;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .task-card:hover .submit-btn { background: #111; color: #fff; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-section">
+            <h2>Task Bridge</h2>
+        </div>
+        <div class="user-nav">
+            <div class="user-info">
+                <span class="username">Alex Johnson</span>
+                <div class="avatar">AJ</div>
+            </div>
+            <a href="login.html" class="sign-out-btn">Sign Out</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="dashboard-header">
+            <h1>User Dashboard</h1>
+            <p>Welcome back! You have 3 new tasks assigned this week.</p>
+        </section>
+
+        <div class="task-grid">
+            <div class="task-card">
+                <span class="company-tag">Google Cloud</span>
+                <h3 class="task-title">Build a Microservices API</h3>
+                <p class="task-desc">Design a scalable REST API using Node.js and Docker. Ensure 100% unit test coverage.</p>
+                
+                <div class="task-footer">
+                    <div class="points-badge">+ 500 Points</div>
+                    <div class="deadline">Ends in: <strong>2 Days</strong></div>
+                </div>
+                <button class="submit-btn">View Details</button>
+            </div>
+
+            <div class="task-card">
+                <span class="company-tag">Stripe</span>
+                <h3 class="task-title">Payment Flow UI Fix</h3>
+                <p class="task-desc">Optimize the checkout experience for mobile devices by reducing layout shift.</p>
+                
+                <div class="task-footer">
+                    <div class="points-badge">+ 350 Points</div>
+                    <div class="deadline">Ends in: <strong>14 Hours</strong></div>
+                </div>
+                <button class="submit-btn">View Details</button>
+            </div>
+
+            <div class="task-card">
+                <span class="company-tag">Tesla</span>
+                <h3 class="task-title">Data Visualization Module</h3>
+                <p class="task-desc">Create a D3.js dashboard to visualize real-time battery efficiency metrics.</p>
+                
+                <div class="task-footer">
+                    <div class="points-badge">+ 800 Points</div>
+                    <div class="deadline">Ends in: <strong>5 Days</strong></div>
+                </div>
+                <button class="submit-btn">View Details</button>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
