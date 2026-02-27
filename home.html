@@ -62,7 +62,7 @@ nav a:hover {
     color: var(--neon);
 }
 
-/* HERO SECTION */
+/* HERO */
 .hero {
     padding: 150px 20px 120px 20px;
     text-align: center;
@@ -101,12 +101,24 @@ nav a:hover {
     box-shadow: 0 0 20px #22D3EE;
 }
 
-/* FEATURES SECTION */
+/* FEATURES */
 .features {
-    padding: 100px 40px;
+    padding: 120px 40px;
     text-align: center;
-    background: rgb(255, 255, 255);
+    background: white;
     border-bottom: 1px solid rgba(59,130,246,0.15);
+}
+
+/* Scroll Reveal Base */
+.reveal {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: all 0.8s ease;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .features h2 {
@@ -122,40 +134,44 @@ nav a:hover {
     flex-wrap: wrap;
 }
 
-/* GLASS CARDS */
+/* CARDS */
 .card {
     width: 340px;
     min-height: 280px;
     padding: 35px;
     border-radius: 20px;
-    background: var(--card-bg);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(59, 130, 246, 0.25);
+    background: white;
+    border: 1px solid rgba(59, 130, 246, 0.2);
     transition: 0.4s ease;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
 }
 
 .card:hover {
-    transform: translateY(-15px);
-    box-shadow: 0 0 30px rgba(34, 211, 238, 0.4);
-    border: 1px solid var(--neon);
+    transform: translateY(-12px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 
 .card h3 {
-    color: #0F172A;  /* dark navy */
+    color: #0F172A;
     margin-bottom: 10px;
 }
 
 .card .highlight {
-     color: #2563EB;  /* strong blue */
+    color: #2563EB;
     font-weight: 600;
     margin-bottom: 12px;
 }
 
 .card p {
-    color: #334155;  /* dark gray */
+    color: #334155;
     line-height: 1.6;
     font-size: 0.95rem;
 }
+
+/* Stagger effect */
+.card:nth-child(1) { transition-delay: 0.2s; }
+.card:nth-child(2) { transition-delay: 0.4s; }
+.card:nth-child(3) { transition-delay: 0.6s; }
 
 /* FOOTER */
 footer {
@@ -180,32 +196,28 @@ footer p {
 
 <canvas id="particles"></canvas>
 
-<!-- HEADER -->
 <header>
-    <h2>TaskBridge</h2>
+    <a href="home.html" style="text-decoration: none;"><h2>TaskBridge</h2></a>
     <nav>
-        <a href="#">How It Works</a>
-        <a href="#">Login</a>
+        <a href="#features-section" id="howItWorksLink">How It Works</a>
+        <a href="login.html">Login</a>
     </nav>
 </header>
 
-<!-- HERO -->
 <section class="hero">
     <h1>Replace Resumes with <span id="typing"></span></h1>
     <p>
         A decentralized micro-work platform enabling engineers to earn reputation,
         income, and startup-level experience through proof-of-work collaboration.
     </p>
-    <button class="btn btn-primary">Get Started</button>
+    <a href="login.html"><button class="btn btn-primary">Get Started</button></a>
 </section>
 
-<!-- FEATURES -->
-<section class="features">
+<section class="features reveal" id="features-section">
     <h2>Why TaskBridge?</h2>
     <div class="feature-grid" id="features"></div>
 </section>
 
-<!-- FOOTER -->
 <footer>
     <p>© 2026 TaskBridge | Proof of Work. Not Interviews.</p>
 </footer>
@@ -234,17 +246,17 @@ const features = [
 {
     title: "Task-Based Hiring",
     highlight: "Prove skills through execution.",
-    desc: "Companies post short-term technical work. Engineers complete measurable tasks instead of going through interviews."
+    desc: "Companies post short-term technical work. Engineers complete measurable tasks instead of interviews."
 },
 {
-    title: "DAO Team Collaboration",
+    title: "Team Collaboration",
     highlight: "Democratic skill-based leadership.",
-    desc: "Engineers form teams, divide responsibilities, and vote for temporary leaders based on expertise and performance."
+    desc: "Engineers form teams, divide responsibilities, and vote for temporary leaders."
 },
 {
     title: "Reputation & Startup Growth",
     highlight: "Build credibility. Launch startups.",
-    desc: "Earn verified reputation points and evolve high-performing teams into decentralized startup units."
+    desc: "Earn verified reputation points and evolve high-performing teams into startup units."
 }
 ];
 
@@ -252,13 +264,56 @@ const featureContainer = document.getElementById("features");
 
 features.forEach(feature => {
     const card = document.createElement("div");
-    card.classList.add("card");
+    card.classList.add("card", "reveal");
     card.innerHTML = `
         <h3>${feature.title}</h3>
         <div class="highlight">${feature.highlight}</div>
         <p>${feature.desc}</p>
     `;
     featureContainer.appendChild(card);
+});
+
+/* Scroll Reveal */
+const reveals = document.querySelectorAll(".reveal");
+window.addEventListener("scroll", () => {
+    reveals.forEach(el => {
+        const elementTop = el.getBoundingClientRect().top;
+        if (elementTop < window.innerHeight - 100) {
+            el.classList.add("active");
+        }
+    });
+});
+
+/* Slow Smooth Scroll */
+document.getElementById("howItWorksLink").addEventListener("click", function(e) {
+    e.preventDefault();
+
+    const target = document.getElementById("features-section");
+    const start = window.pageYOffset;
+    const end = target.offsetTop;
+    const distance = end - start;
+    const duration = 1400; // slower scroll
+    let startTime = null;
+
+    function animation(currentTime) {
+        if (!startTime) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+        const progress = Math.min(timeElapsed / duration, 1);
+
+        window.scrollTo(0, start + distance * easeInOut(progress));
+
+        if (timeElapsed < duration) {
+            requestAnimationFrame(animation);
+        }
+    }
+
+    function easeInOut(t) {
+        return t < 0.5
+            ? 2 * t * t
+            : -1 + (4 - 2 * t) * t;
+    }
+
+    requestAnimationFrame(animation);
 });
 
 /* Particle Background */
@@ -318,4 +373,4 @@ window.addEventListener("resize", () => {
 </script>
 
 </body>
-</html> 
+</html>
