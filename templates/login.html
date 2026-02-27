@@ -116,7 +116,7 @@
             <input type="email" placeholder="alex@example.com" required>
             <label class="input-label">Password</label>
             <input type="password" placeholder="••••••••" required>
-            <button type="submit">Sign In</button>
+         <button type="button" onclick="handleLogin()">Sign In</button>
         </form>
         <p class="footer-text">Don't have an account? <a href="usersignup.html" id="signup-link">Join now</a></p>
     </div>
@@ -137,6 +137,17 @@
         // Listen for changes on both radio buttons
         userRadio.addEventListener('change', updateSignupLink);
         companyRadio.addEventListener('change', updateSignupLink);
+       
+    function handleLogin() {
+        const role = document.querySelector('input[name="role"]:checked').value;
+
+        if (role === "user") {
+            window.location.href = "userdashboard.html";
+        } else {
+            window.location.href = "companydashboard.html";
+        }
+    }
+
     </script>
 </body>
 </html>
