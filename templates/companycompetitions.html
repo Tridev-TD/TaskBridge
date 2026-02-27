@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>User Dashboard | Task Bridge</title>
+<title>Company Dashboard | Task Bridge</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
@@ -17,7 +17,7 @@ body {
     min-height: 100vh;
 }
 
-/* HEADER */
+/* ---------------- HEADER ---------------- */
 header {
     position: fixed;
     top: 0; right: 0; left: 0;
@@ -31,9 +31,13 @@ header {
     z-index: 100;
 }
 
-.logo-section h2 { font-size: 20px; font-weight: 700; }
+.logo-section h2 {
+    font-size: 20px;
+    font-weight: 700;
+}
 
 .user-nav { display: flex; align-items: center; gap: 20px; }
+
 .user-info { display: flex; align-items: center; gap: 12px; }
 
 .avatar {
@@ -59,7 +63,7 @@ header {
 }
 .sign-out-btn:hover { background:#ff4d4d; color:white; }
 
-/* MAIN */
+/* ---------------- MAIN ---------------- */
 main {
     margin-top: 70px;
     padding: 40px;
@@ -68,12 +72,27 @@ main {
     margin-inline: auto;
 }
 
-.dashboard-header { margin-bottom: 30px; }
-.dashboard-header h1 { font-size: 28px; font-weight: 600; margin-bottom: 6px; }
-.dashboard-header p { font-size: 14px; color: #777; }
+.dashboard-header {
+    margin-bottom: 30px;
+}
 
-/* NAV */
-.slide-nav { display: flex; gap: 15px; margin-bottom: 30px; }
+.dashboard-header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.dashboard-header p {
+    font-size: 14px;
+    color: #777;
+}
+
+/* ---------------- SLIDE NAV ---------------- */
+.slide-nav {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
 
 .nav-btn {
     padding: 10px 20px;
@@ -82,19 +101,46 @@ main {
     background: #eaeaea;
     cursor: pointer;
     font-weight: 600;
+    transition: 0.3s;
 }
 
-.nav-btn.active { background: #111; color: white; }
+.nav-btn.active {
+    background: #111;
+    color: white;
+}
 
-/* SLIDER */
-.slider-wrapper { overflow: hidden; width: 100%; }
-.slider { display: flex; width: 300%; transition: transform 0.5s ease-in-out; }
-.slide { flex: 0 0 100%; width: 100%; }
+/* ---------------- SLIDER ---------------- */
+.slider-wrapper {
+    overflow: hidden;
+    width: 100%;
+}
 
-/* GRID */
-.section-header { margin-bottom: 25px; }
-.section-header h2 { font-size: 22px; font-weight: 600; margin-bottom: 6px; }
-.section-header p { font-size: 14px; color: #777; }
+.slider {
+    display: flex;
+    width: 200%;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    width: 100%;
+    flex-shrink: 0;   /* THIS FIXES THE EXTRA SCROLL */
+}
+
+/* ---------------- GRID ---------------- */
+.section-header {
+    margin-bottom: 25px;
+}
+
+.section-header h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.section-header p {
+    font-size: 14px;
+    color: #777;
+}
 
 .task-grid {
     display: grid;
@@ -102,14 +148,13 @@ main {
     gap: 25px;
 }
 
-/* CARD */
+/* ---------------- CARD ---------------- */
 .card {
     background: white;
     border-radius: 20px;
     padding: 24px;
     border: 2px solid #f0f0f0;
-    transition: 0.3s;
-    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .card:hover {
@@ -128,8 +173,18 @@ main {
     display: block;
 }
 
-.card-title { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
-.card-desc { font-size: 14px; color: #666; line-height: 1.6; margin-bottom: 20px; }
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.card-desc {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
 
 .card-footer {
     display: flex;
@@ -157,7 +212,10 @@ main {
     font-weight: 700;
 }
 
-.deadline { font-size: 12px; color: #999; }
+.deadline {
+    font-size: 12px;
+    color: #999;
+}
 
 .action-btn {
     width: 100%;
@@ -169,68 +227,21 @@ main {
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
+    transition: 0.2s;
 }
 
 .card:hover .action-btn {
     background: #111;
     color: #fff;
 }
-
-/* MODAL */
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-}
-
-.modal {
-    background: white;
-    width: 90%;
-    max-width: 600px;
-    border-radius: 16px;
-    padding: 30px;
-    position: relative;
-}
-
-.modal textarea {
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    resize: vertical;
-    margin: 20px 0;
-    font-family: 'Inter', sans-serif;
-}
-
-.close-btn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: #f4f4f4;
-    border: none;
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.submit-btn {
-    background: #111;
-    color: white;
-    padding: 10px 18px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
 </style>
 </head>
 <body>
 
 <header>
-    <div class="logo-section"><h2>Task Bridge</h2></div>
+    <div class="logo-section">
+        <h2>Task Bridge</h2>
+    </div>
     <div class="user-nav">
         <div class="user-info">
             <span>Alex Johnson</span>
@@ -243,14 +254,13 @@ main {
 <main>
 
 <div class="dashboard-header">
-    <h1>User Dashboard</h1>
-    <p>Explore tasks, competitions, and startup teams.</p>
+    <h1>Host Dashboard</h1>
+    <p>Manage tasks and competitions for your company.</p>
 </div>
 
 <div class="slide-nav">
     <button class="nav-btn active" onclick="showSlide(0)">Tasks</button>
     <button class="nav-btn" onclick="showSlide(1)">Competitions</button>
-    <button class="nav-btn" onclick="showSlide(2)">Startups</button>
 </div>
 
 <div class="slider-wrapper">
@@ -259,10 +269,12 @@ main {
 <!-- TASKS -->
 <section class="slide">
 <div class="section-header">
-<h2>Available Tasks</h2>
+<h2>Tasks to be reviewed</h2>
 <p>Complete short-term industry tasks and earn points.</p>
 </div>
+
 <div class="task-grid">
+
 <div class="card">
 <span class="company-tag">Google Cloud</span>
 <h3 class="card-title">Build a Microservices API</h3>
@@ -273,16 +285,41 @@ main {
 </div>
 <button class="action-btn">View Details</button>
 </div>
+
+<div class="card">
+<span class="company-tag">Microsoft</span>
+<h3 class="card-title">Azure Web App Deployment</h3>
+<p class="card-desc">Deploy a production-ready app on Azure.</p>
+<div class="card-footer">
+<div class="points-badge">+ 300 Points</div>
+<div class="deadline">Ends in 5 Days</div>
+</div>
+<button class="action-btn">View Details</button>
+</div>
+
+<div class="card">
+<span class="company-tag">Startup India</span>
+<h3 class="card-title">Product Idea Validation</h3>
+<p class="card-desc">Validate a startup idea using real user research.</p>
+<div class="card-footer">
+<div class="points-badge">+ 700 Points</div>
+<div class="deadline">Ends in 4 Days</div>
+</div>
+<button class="action-btn">View Details</button>
+</div>
+
 </div>
 </section>
 
 <!-- COMPETITIONS -->
 <section class="slide">
 <div class="section-header">
-<h2>Competitions</h2>
-<p>Participate in premium challenges with prize pools.</p>
+<h2>Competitions to be reviewed</h2>
+<p>Participate in premium challenges with paid registration.</p>
 </div>
+
 <div class="task-grid">
+
 <div class="card">
 <span class="company-tag">Global Hackathon</span>
 <h3 class="card-title">AI Innovation Challenge</h3>
@@ -293,96 +330,36 @@ main {
 </div>
 <button class="action-btn">Register Now</button>
 </div>
-</div>
-</section>
 
-<!-- STARTUPS -->
-<section class="slide">
-<div class="section-header">
-<h2>Startup Members</h2>
-<p>Engineers currently building startup units.</p>
-</div>
-<div class="task-grid">
 <div class="card">
-<h3 class="card-title">Alex Johnson</h3>
-<p class="card-desc">Full Stack Developer • Reputation: 1200 pts</p>
+<span class="company-tag">Startup India</span>
+<h3 class="card-title">Product Idea Validation</h3>
+<p class="card-desc">Premium version with investor panel & prize rewards.</p>
 <div class="card-footer">
-<div class="points-badge">Team Leader</div>
-<div class="deadline">Joined 3 months ago</div>
+<div class="register-fee">₹799 Registration</div>
+<div class="deadline">Prize Pool ₹1,00,000</div>
 </div>
-<button class="action-btn">View Profile</button>
+<button class="action-btn">Register Now</button>
 </div>
+
 </div>
 </section>
 
 </div>
 </div>
-</main>
 
-<!-- MODAL -->
-<div class="modal-overlay" id="taskModal">
-    <div class="modal">
-        <button class="close-btn" onclick="closeModal()">✕</button>
-        <h3 id="modalTitle"></h3>
-        <p id="modalDesc"></p>
-        <textarea id="modalTextarea"></textarea>
-        <button class="submit-btn" id="modalButton"></button>
-    </div>
-</div>
+</main>
 
 <script>
 function showSlide(index) {
     const slider = document.querySelector(".slider");
     const buttons = document.querySelectorAll(".nav-btn");
+
     slider.style.transform = `translateX(-${index * 100}%)`;
+
     buttons.forEach(btn => btn.classList.remove("active"));
     buttons[index].classList.add("active");
 }
-
-document.querySelectorAll(".card").forEach(card => {
-    card.addEventListener("click", function(e) {
-        if (!e.target.classList.contains("action-btn")) openModal(this);
-    });
-});
-
-document.querySelectorAll(".action-btn").forEach(btn => {
-    btn.addEventListener("click", function(e) {
-        e.stopPropagation();
-        openModal(this.closest(".card"));
-    });
-});
-
-function openModal(card) {
-    const title = card.querySelector(".card-title")?.innerText || "";
-    const desc = card.querySelector(".card-desc")?.innerText || "";
-    const section = card.closest(".slide").querySelector("h2").innerText;
-
-    document.getElementById("modalTitle").innerText = title;
-    document.getElementById("modalDesc").innerText = desc;
-
-    const textarea = document.getElementById("modalTextarea");
-    const button = document.getElementById("modalButton");
-
-    if (section === "Startup Members") {
-        textarea.placeholder = "Write your message...";
-        textarea.style.height = "100px";
-        button.innerText = "Send Message";
-    } else {
-        textarea.placeholder = "Submit your task solution here...";
-        textarea.style.height = "180px";
-        button.innerText = "Submit Task";
-    }
-
-    document.getElementById("taskModal").style.display = "flex";
-}
-
-function closeModal() {
-    document.getElementById("taskModal").style.display = "none";
-}
-
-document.getElementById("taskModal").addEventListener("click", function(e) {
-    if (e.target === this) closeModal();
-});
 </script>
 
 </body>
