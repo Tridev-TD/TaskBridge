@@ -388,9 +388,9 @@ def add_task():
 
         cursor.execute("""
             INSERT INTO TASKS 
-            (tid, title, descr, deadline,applijoin, skillset, eligbility, orgid)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        """, (taskId, title, description, deadline, joinDate, skillsets, eligibilityScore, orgId))
+            (tid, title, descr, deadline,applijoin, skillset, eligbility, orgid,status)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (taskId, title, description, deadline, joinDate, skillsets, eligibilityScore, orgId,0))
 
         conn.commit()
         conn.close()
