@@ -52,7 +52,7 @@
             color: #333;
         }
 
-        .login-box {
+       .login-box {
             background: white;
             padding: 40px;
             border-radius: 24px;
@@ -62,7 +62,7 @@
             animation: fadeInUp 0.6s ease-out;
         }
 
-        .shake {
+       .shake {
             animation: shake 0.3s ease-in-out;
         }
 
@@ -80,13 +80,13 @@
             margin-bottom: 30px;
         }
 
-        .form-grid {
+       .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 0 15px;
         }
 
-        .full-width {
+       .full-width {
             grid-column: span 2;
         }
 
@@ -101,14 +101,12 @@
             margin-top: 5px;
         }
 
-        /* Stronger Borders and Clearer Inputs */
         input,
         textarea {
             width: 100%;
             padding: 12px 16px;
             margin-bottom: 15px;
             border: 2px solid #d1d5db;
-            /* Much clearer border */
             border-radius: 12px;
             font-size: 14px;
             outline: none;
@@ -116,7 +114,13 @@
             transition: all 0.3s ease;
             font-family: inherit;
             box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
-            /* Adds depth */
+        }
+
+        /* Styling for file input to match theme */
+        input[type="file"] {
+            padding: 8px 16px;
+            cursor: pointer;
+            background: #f9fafb;
         }
 
         textarea {
@@ -152,7 +156,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .error-msg {
+       .error-msg {
             color: #ff4d4d;
             font-size: 12px;
             grid-column: span 2;
@@ -162,14 +166,14 @@
             font-weight: 600;
         }
 
-        .footer-text {
+       .footer-text {
             text-align: center;
             margin-top: 25px;
             font-size: 14px;
             color: #666;
         }
 
-        .footer-text a {
+       .footer-text a {
             color: #007BFF;
             text-decoration: none;
             font-weight: 600;
@@ -181,7 +185,7 @@
     <div class="login-box" id="box">
         <h2>User Sign Up</h2>
         <p class="subtitle">Showcase your skills to top companies</p>
-        <form id="signupForm" method="POST" action="/adduser">
+        <form id="signupForm" method="POST" action="/adduser" enctype="multipart/form-data">
             <div class="form-grid">
                 <div class="full-width">
                     <label class="input-label">Full Name</label>
@@ -190,19 +194,27 @@
 
                 <div class="full-width">
                     <label class="input-label">Skill Sets</label>
-                    <textarea name="skills" placeholder="e.g. Python, React, UI Design, Data Structures..."
-                        required></textarea>
+                    <textarea name="skills" placeholder="e.g. Python, React, UI Design, Data Structures..." required></textarea>
                 </div>
 
                 <div class="full-width">
-                    <label class="input-label">Portfolio / Project Links</label>
-                    <input type="text" name="portfolio"
-                        placeholder="https://github.com/yourusername or portfolio-link.com">
+                    <label class="input-label">Github id</label>
+                    <input type="text" name="portfolio" placeholder="Username">
                 </div>
 
                 <div class="full-width">
                     <label class="input-label">Personal Email</label>
                     <input type="email" name="email" placeholder="alex@example.com" required>
+                </div>
+
+                <div class="full-width">
+                    <label class="input-label">Headquarters / Location</label>
+                    <input type="text" name="location" placeholder="e.g. kottayam, alappuzha" required>
+                </div>
+
+                <div class="full-width">
+                    <label class="input-label">Upload Resume (PDF preferred)</label>
+                    <input type="file" name="resume" accept=".pdf,.doc,.docx" required>
                 </div>
 
                 <div>
@@ -229,11 +241,15 @@
         const error = document.getElementById('error');
 
         form.addEventListener('submit', (e) => {
-            if (pass.value !== conf.value) {
+            if (pass.value!== conf.value) {
                 e.preventDefault();
                 error.style.display = 'block';
                 box.classList.add('shake');
+                conf.style.borderColor = '#ff4d4d';
                 setTimeout(() => box.classList.remove('shake'), 300);
+            } else {
+                error.style.display = 'none';
+                conf.style.borderColor = '#d1d5db';
             }
         });
     </script>
