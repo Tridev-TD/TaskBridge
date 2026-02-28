@@ -6,7 +6,7 @@ from flask import jsonify
 
 # --- Setup paths and Flask ---
 current_dir = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(current_dir, 'task.db')
+DB_PATH = os.path.join(current_dir, 'auth.db')
 
 app = Flask(__name__)
 app.secret_key = "taskbridge_secret"
@@ -18,16 +18,27 @@ def init_db():
         with sqlite3.connect(DB_PATH, timeout=20, check_same_thread=False) as conn:
             cursor = conn.cursor()
             cursor.execute("""
-                CREATE TABLE IF NOT EXISTS USERS (
+                CREATE TABLE IF NOT EXISTS users (
                     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                    EMAIL TEXT NOT NULL,
-                    PASS TEXT NOT NULL,
                     NAME TEXT NOT NULL,
-                    SKILLS TEXT,
-                    SOCIALS TEXT,
-                    USERTYPE INTEGER NOT NULL,
-                    ORGTYPE TEXT,
-                    LISNO TEXT
+                    EMAIL TEXT UNIQUE NOT NULL,
+                    PASS TEXT NOT NULL,
+                    SKILLSET TEXT,
+                    GITNAME TEXT,
+                    RESUME BLOB,
+                    PLACE TEXT
+                )
+            """)
+            # Organization Table
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS org (
+                    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                    NAME TEXT NOT NULL,
+                    EMAIL TEXT UNIQUE NOT NULL,
+                    PASS TEXT NOT NULL,
+                    LISNO TEXT,
+                    TYPE TEXT,
+                    LOCATION TEXT
                 )
             """)
             conn.commit()
@@ -91,16 +102,20 @@ def add_user():
     password = request.form['password']
     skills = request.form['skills']
     socials = request.form['portfolio'] 
-    resu= request.form['resume']
+    resume = request.files.get('resume')
     pla= request.form['location']
     
+    if resume:
+        resume_blob = resume.read()
+    else:
+        resume_blob = None
 
     try:
         with sqlite3.connect(DB_PATH, timeout=20, check_same_thread=False) as conn:
             cursor = conn.cursor()
             cursor.execute(
-                "INSERT INTO users (NAME, EMAIL, PASS, SKILLS, GITNAME, RESUME, LOCATION) VALUES (?, ?, ?, ?, ?, ?, ?)", 
-                (name, email, password, skills, socials,resu,pla)
+                "INSERT INTO users (NAME, EMAIL, PASS, SKILLSET, GITNAME, RESUME, PLACE) VALUES (?, ?, ?, ?, ?, ?, ?)", 
+                (name, email, password, skills, socials, resume_blob, pla)
             )
             conn.commit()
             print("Success")
@@ -265,8 +280,7 @@ def github_score(username):
     result = calculate_github_score(username)
     return result
 
-if __name__ == "__main__":
-    app.run(debug=True)
+
 
 
 
