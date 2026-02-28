@@ -52,7 +52,7 @@
             color: #333;
         }
 
-       .login-box {
+        .login-box {
             background: white;
             padding: 40px;
             border-radius: 24px;
@@ -62,7 +62,7 @@
             animation: fadeInUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
         }
 
-       .shake {
+        .shake {
             animation: shake 0.3s ease-in-out;
         }
 
@@ -81,14 +81,14 @@
         }
 
         /* --- Modern Custom Radio Design --- */
-       .radio-group {
+        .radio-group {
             display: flex;
             gap: 15px;
             margin-bottom: 25px;
             padding: 5px 0;
         }
 
-       .radio-option {
+        .radio-option {
             position: relative;
             display: flex;
             align-items: center;
@@ -103,20 +103,20 @@
             border: 1px solid transparent;
         }
 
-       .radio-option:hover {
+        .radio-option:hover {
             color: #333;
             background: #f1f3f5;
         }
 
         /* Hide Default Radio */
-       .radio-option input {
+        .radio-option input {
             position: absolute;
             opacity: 0;
             cursor: pointer;
         }
 
         /* Custom Radio Circle */
-       .custom-radio {
+        .custom-radio {
             height: 18px;
             width: 18px;
             background-color: #fff;
@@ -129,13 +129,13 @@
         }
 
         /* Border Glow on Selection */
-       .radio-option input:checked~.custom-radio {
+        .radio-option input:checked~.custom-radio {
             border-color: #007BFF;
             box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
         }
 
         /* Inner Dot */
-       .custom-radio:after {
+        .custom-radio:after {
             content: "";
             position: absolute;
             display: none;
@@ -148,23 +148,23 @@
             background: #007BFF;
         }
 
-       .radio-option input:checked~.custom-radio:after {
+        .radio-option input:checked~.custom-radio:after {
             display: block;
         }
 
-       .radio-option input:checked~span {
+        .radio-option input:checked~span {
             color: #000;
             font-weight: 600;
         }
 
         /* --- Form Grid --- */
-       .form-grid {
+        .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 0 15px;
         }
 
-       .full-width {
+        .full-width {
             grid-column: span 2;
         }
 
@@ -221,7 +221,7 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
 
-       .error-msg {
+        .error-msg {
             color: #ff4d4d;
             font-size: 12px;
             grid-column: span 2;
@@ -231,14 +231,14 @@
             font-weight: 600;
         }
 
-       .footer-text {
+        .footer-text {
             text-align: center;
             margin-top: 25px;
             font-size: 14px;
             color: #666;
         }
 
-       .footer-text a {
+        .footer-text a {
             color: #007BFF;
             text-decoration: none;
             font-weight: 600;
@@ -262,7 +262,7 @@
                     <span>NGO</span>
                 </label>
                 <label class="radio-option">
-                    <input type="radio" name="org_type" value="Startup">
+                    <input type="radio" name="org_type" value="Muncipal">
                     <span class="custom-radio"></span>
                     <span>Muncipal</span>
                 </label>
@@ -323,7 +323,7 @@
         const errorMsg = document.getElementById('error');
 
         form.addEventListener('submit', function (e) {
-            if (password.value!== confirm.value) {
+            if (password.value !== confirm.value) {
                 e.preventDefault();
                 errorMsg.style.display = 'block';
                 box.classList.add('shake');
