@@ -102,10 +102,56 @@
             margin-bottom: 6px;
         }
 
-        .dashboard-header p {
-            font-size: 14px;
-            color: #777;
+        .wide-dashboard {
+            background: #0f172a;
+            color: white;
+            border-radius: 24px;
+            padding: 25px 40px; /* Reduced height */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
         }
+
+        /* Gradient Glow behind the stats */
+        .wide-dashboard::after {
+            content: ''; position: absolute; top: -50%; left: -10%;
+            width: 40%; height: 200%; background: radial-gradient(circle, rgba(0,123,255,0.15) 0%, transparent 70%);
+            z-index: 1;
+        }
+
+        .user-profile-side {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .large-avatar {
+            width: 60px; height: 60px; border-radius: 16px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; font-weight: 700; border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .user-details h2 { font-size: 20px; font-weight: 700; }
+        .user-details p { font-size: 13px; color: #94a3b8; }
+
+        .stats-container {
+            display: flex;
+            gap: 40px;
+            z-index: 2;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            padding-left: 40px;
+        }
+
+        .stat-card { text-align: left; }
+        .stat-value { font-size: 24px; font-weight: 800; display: block; }
+        .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #64748b; }
 
         /* NAV */
         .slide-nav {
@@ -323,9 +369,33 @@
 
     <main>
 
-        <div class="dashboard-header">
-            <h1>User Dashboard</h1>
-            <p>Explore tasks, competitions, and startup teams.</p>
+        <div class="wide-dashboard">
+            <div class="user-profile-side">
+                <div class="large-avatar">AJ</div>
+                <div class="user-details">
+                    <h2>Alex Johnson</h2>
+                    <p>Verified Talent • Junior Developer</p>
+                </div>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <span class="stat-value">2,450</span>
+                    <span class="stat-label">Points Earned</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value">12</span>
+                    <span class="stat-label">Completed Tasks</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value">3</span>
+                    <span class="stat-label">Active Bounties</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value">Top 5%</span>
+                    <span class="stat-label">Global Rank</span>
+                </div>
+            </div>
         </div>
 
         <div class="slide-nav">
