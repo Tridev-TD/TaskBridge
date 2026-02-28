@@ -103,7 +103,7 @@ def add_user():
         flash(f"Database error: {e}")
         return render_template('usersignup.html')
 
-    return render_template('userdashboard.html', message='User registered successfully.')
+    return render_template('login.html', message='User registered successfully.')
 
 @app.route('/login', methods=['POST'])
 def login_post():
