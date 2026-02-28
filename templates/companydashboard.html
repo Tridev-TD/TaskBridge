@@ -251,16 +251,94 @@
     <div class="modal-overlay" id="taskModal">
         <div class="modal">
             <h2>Add New Task</h2>
+
+            <!-- Task ID (auto generated) -->
+            <input id="taskId" placeholder="Task ID" readonly
+                style="width:100%; padding:12px; margin-top:15px; border:1px solid #e2e8f0; border-radius:12px; background:#f8fafc; font-weight:600;">
+
+            <!-- Task Title -->
             <input id="taskTitle" placeholder="Task Title"
                 style="width:100%; padding:12px; margin-top:15px; border:1px solid #e2e8f0; border-radius:12px;">
+
+            <!-- Task Description -->
             <textarea id="taskDesc" placeholder="Task Description"
                 style="width:100%; padding:12px; margin-top:15px; border:1px solid #e2e8f0; border-radius:12px;"></textarea>
-            <button class="primary-btn" style="width:100%; margin-top:20px;" onclick="addTask()">Create Task</button>
+
+            <!-- Deadline -->
+            <label for="deadline">Deadline</label>
+            <input type="date" id="deadline"
+                style="width:100%; padding:12px; margin-top:15px; border:1px solid #e2e8f0; border-radius:12px;">
+
+
+            <!-- Required Skillsets -->
+            <input id="skillsets" placeholder="Required Skillsets (comma separated)"
+                style="width:100%; padding:12px; margin-top:15px; border:1px solid #e2e8f0; border-radius:12px;">
+
+            <!-- Eligibility Score -->
+            <input type="number" id="eligibilityScore" placeholder="Eligibility Score"
+                style="width:100%; padding:12px; margin-top:15px; border:1px solid #e2e8f0; border-radius:12px;">
+
+            <!-- Org ID -->
+            <input id="orgId" placeholder="Organization ID"
+                style="width:100%; padding:12px; margin-top:15px; border:1px solid #e2e8f0; border-radius:12px;">
+
+            <!-- Buttons -->
+            <button class="primary-btn" style="width:100%; margin-top:20px;" onclick="addTask()">
+                Create Task
+            </button>
+
             <button
                 style="margin-top:10px; width:100%; padding:15px; border:none; border-radius:15px; background:#f1f5f9; cursor:pointer; font-weight:700;"
-                onclick="closeTaskModal()">Cancel</button>
+                onclick="closeTaskModal()">
+                Cancel
+            </button>
         </div>
     </div>
+
+    <script>
+        // generate random Task ID when modal opens
+        function generateTaskId() {
+            return "TASK-" + Math.floor(100000 + Math.random() * 900000);
+        }
+
+        // call this when opening modal
+        function openTaskModal() {
+            document.getElementById("taskModal").style.display = "flex";
+            document.getElementById("taskId").value = generateTaskId();
+        }
+
+
+        // example addTask function
+        function addTask() {
+
+            const sysdate = new Date();
+
+            const formattedSysdate = sysdate.getFullYear() + "-" +
+                String(sysdate.getMonth() + 1).padStart(2, '0') + "-" +
+                String(sysdate.getDate()).padStart(2, '0') + " " +
+                String(sysdate.getHours()).padStart(2, '0') + ":" +
+                String(sysdate.getMinutes()).padStart(2, '0') + ":" +
+                String(sysdate.getSeconds()).padStart(2, '0');
+            const task = {
+                taskId: document.getElementById("taskId").value,
+                title: document.getElementById("taskTitle").value,
+                description: document.getElementById("taskDesc").value,
+                deadline: document.getElementById("deadline").value,
+                joinDate: formattedSysdate,
+                skillsets: document.getElementById("skillsets").value,
+                eligibilityScore: document.getElementById("eligibilityScore").value,
+                orgId: document.getElementById("orgId").value
+            };
+
+            console.log(task);
+
+            closeTaskModal();
+        }
+
+        function closeTaskModal() {
+            document.getElementById("taskModal").style.display = "none";
+        }
+    </script>
 
     <script>
 
