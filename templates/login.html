@@ -196,6 +196,9 @@
             <button type="submit">Sign In</button>
         </form>
         <p class="footer-text">Don't have an account? <a href="/user-signup" id="signup-link">Join now</a></p>
+        {% if error %}
+        <p style="color: red; text-align: center; margin-bottom: 15px;">{{ error }}</p>
+        {% endif %}
     </div>
 
     <script>
