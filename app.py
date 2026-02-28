@@ -67,14 +67,15 @@ def add_company():
     company_name = request.form['company_name']
     license_no = request.form['license_no']
     org_type = request.form['org_type']
-    usertype = 0 
+    loc= request.form['location']
+   
 
     try:
         with sqlite3.connect(DB_PATH, timeout=20, check_same_thread=False) as conn:
             cursor = conn.cursor()
             cursor.execute(
-                "INSERT INTO USERS (NAME, EMAIL, PASS, LISNO, USERTYPE, ORGTYPE) VALUES (?, ?, ?, ?, ?, ?)", 
-                (company_name, email, password, license_no, usertype,org_type)
+                "INSERT INTO org (NAME, EMAIL, PASS, LISNO, TYPE, LOCATION) VALUES (?, ?, ?, ?, ?, ?)", 
+                (company_name, email, password, license_no,org_type,loc)
             )
             conn.commit()
     except sqlite3.OperationalError as e:
@@ -90,14 +91,16 @@ def add_user():
     password = request.form['password']
     skills = request.form['skills']
     socials = request.form['portfolio'] 
-    usertype = 1 
+    resu= request.form['resume']
+    pla= request.form['location']
+    
 
     try:
         with sqlite3.connect(DB_PATH, timeout=20, check_same_thread=False) as conn:
             cursor = conn.cursor()
             cursor.execute(
-                "INSERT INTO USERS (NAME, EMAIL, PASS, SKILLS, SOCIALS, USERTYPE) VALUES (?, ?, ?, ?, ?, ?)", 
-                (name, email, password, skills, socials, usertype)
+                "INSERT INTO users (NAME, EMAIL, PASS, SKILLS, GITNAME, RESUME, LOCATION) VALUES (?, ?, ?, ?, ?, ?, ?)", 
+                (name, email, password, skills, socials,resu,pla)
             )
             conn.commit()
             print("Success")
@@ -111,34 +114,34 @@ def add_user():
 def login_post():
     email = request.form['email'].strip()
     password = request.form['password'].strip()
-     
 
     try:
         with sqlite3.connect(DB_PATH, timeout=20, check_same_thread=False) as conn:
             cursor = conn.cursor()
-            cursor.execute(
-                "SELECT * FROM USERS WHERE EMAIL=?", 
-                (email,)
-            )
+
+            # 1️⃣ Check in users table
+            cursor.execute("SELECT * FROM users WHERE email=?", (email,))
             user = cursor.fetchone()
+
+            if user:
+                if password == user[4]:   # pass column index in users table
+                    return render_template('userdashboard.html', user=user)
+
+            # 2️⃣ If not in users, check in org table
+            cursor.execute("SELECT * FROM org WHERE email=?", (email,))
+            org = cursor.fetchone()
+
+            if org:
+                if password == org[5]:   # pass column index in org table
+                    return render_template('companydashboard.html', org=org)
+
     except sqlite3.OperationalError as e:
         flash(f"Database error: {e}")
         return render_template('login.html')
 
-    if user:
-        db_email = user[1]
-        db_pass = user[2]
-        db_role = user[6]
-        print(db_role)
-        if email == db_email and password == db_pass:
-            if db_role == 0:
-                
-                return render_template('companydashboard.html', user=user)
-            else:
-                return render_template('userdashboard.html', user=user)
+    # ❌ If nothing matched
+    return render_template('login.html', error="Invalid Credentials ❌")
 
-    errorm="Invalid Credentials ❌"
-    return render_template('login.html', error=errorm)
 
 @app.route('/companytasks')
 def company_tasks():
