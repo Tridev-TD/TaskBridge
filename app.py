@@ -305,6 +305,7 @@ def get_tasks():
             ELIGBILITY,
             ORGID
         FROM TASKS
+        WHERE STATUS = 1
         ORDER BY APPLIJOIN DESC
     """).fetchall()
 
@@ -342,6 +343,7 @@ def get_placements():
             ELIGBILITY,
             ORGID
         FROM TASKS
+        WHERE STATUS = 0
         ORDER BY APPLIJOIN DESC
     """).fetchall()
 
