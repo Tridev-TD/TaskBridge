@@ -41,6 +41,19 @@ def init_db():
                     LOCATION TEXT
                 )
             """)
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS TASKS (
+                    TID INTEGER PRIMARY KEY AUTOINCREMENT,
+                    TITLE TEXT NOT NULL,
+                    DESCR TEXT,
+                    DEADLINE TEXT NOT NULL,
+                    APPLIJOIN INTEGER,
+                    SKILLSET TEXT,
+                    STATUS INTEGER,
+                    ELIGBILITY INTEGER,
+                    ORGID TEXT
+                )
+                """)
             conn.commit()
             print("Database initialized successfully ✅")
     except sqlite3.OperationalError as e:
@@ -283,8 +296,38 @@ def company_tasks():
 def company_competitions():
     return render_template('companycompetitions.html')
 
+@app.route("/add-task", methods=["POST"])
+def add_task():
+    try:
+        data = request.get_json()
 
+        taskId = data.get("taskId")
+        
+        title = data.get("title")
+        description = data.get("description")
+        deadline = data.get("deadline")
+        joinDate = data.get("joinDate")
+        skillsets = data.get("skillsets")
+        eligibilityScore = data.get("eligibilityScore")
+        orgId = data.get("orgId")
 
+        conn = sqlite3.connect("auth.db")
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            INSERT INTO TASKS 
+            (tid, title, descr, deadline,applijoin, skillset, eligbility, orgid)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """, (taskId, title, description, deadline, joinDate, skillsets, eligibilityScore, orgId))
+
+        conn.commit()
+        conn.close()
+
+        return jsonify({"message": "Task added successfully!"})
+
+    except Exception as e:
+        print("ERROR:", e)
+        return jsonify({"message": "Error inserting task"}), 500
 
 
 

@@ -307,37 +307,58 @@
             document.getElementById("taskId").value = generateTaskId();
         }
 
-
-        // example addTask function
-        function addTask() {
-
-            const sysdate = new Date();
-
-            const formattedSysdate = sysdate.getFullYear() + "-" +
-                String(sysdate.getMonth() + 1).padStart(2, '0') + "-" +
-                String(sysdate.getDate()).padStart(2, '0') + " " +
-                String(sysdate.getHours()).padStart(2, '0') + ":" +
-                String(sysdate.getMinutes()).padStart(2, '0') + ":" +
-                String(sysdate.getSeconds()).padStart(2, '0');
-            const task = {
-                taskId: document.getElementById("taskId").value,
-                title: document.getElementById("taskTitle").value,
-                description: document.getElementById("taskDesc").value,
-                deadline: document.getElementById("deadline").value,
-                joinDate: formattedSysdate,
-                skillsets: document.getElementById("skillsets").value,
-                eligibilityScore: document.getElementById("eligibilityScore").value,
-                orgId: document.getElementById("orgId").value
-            };
-
-            console.log(task);
-
-            closeTaskModal();
-        }
-
         function closeTaskModal() {
             document.getElementById("taskModal").style.display = "none";
         }
+
+        function openAddTaskModal() {
+            document.getElementById('taskModal').style.display = 'flex';
+        }
+
+        function closeTaskModal() {
+            document.getElementById('taskModal').style.display = 'none';
+        }
+        // example addTask function
+        function addTask() {
+
+    const sysdate = new Date();
+
+    const formattedSysdate = sysdate.getFullYear() + "-" +
+        String(sysdate.getMonth() + 1).padStart(2, '0') + "-" +
+        String(sysdate.getDate()).padStart(2, '0') + " " +
+        String(sysdate.getHours()).padStart(2, '0') + ":" +
+        String(sysdate.getMinutes()).padStart(2, '0') + ":" +
+        String(sysdate.getSeconds()).padStart(2, '0');
+
+    const task = {
+        taskId: parseInt(document.getElementById("taskId").value),
+        title: document.getElementById("taskTitle").value,
+        description: document.getElementById("taskDesc").value,
+        deadline: document.getElementById("deadline").value,
+        joinDate: formattedSysdate, 
+        skillsets: document.getElementById("skillsets").value,
+        eligibilityScore: parseInt(document.getElementById("eligibilityScore").value),
+        orgId: document.getElementById("orgId").value
+    };
+
+    fetch("/add-task", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(task)
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        closeTaskModal();
+    })
+    .catch(error => {
+        console.error("Error:", error);
+    });
+}
+
+        
     </script>
 
     <script>
@@ -426,30 +447,24 @@
             init();
         }
 
-        function openAddTaskModal() {
-            document.getElementById('taskModal').style.display = 'flex';
-        }
+        
 
-        function closeTaskModal() {
-            document.getElementById('taskModal').style.display = 'none';
-        }
+        // function addTask() {
+        //     const title = document.getElementById('taskTitle').value;
+        //     const desc = document.getElementById('taskDesc').value;
 
-        function addTask() {
-            const title = document.getElementById('taskTitle').value;
-            const desc = document.getElementById('taskDesc').value;
+        //     if (!title || !desc) {
+        //         alert("Fill all fields");
+        //         return;
+        //     }
 
-            if (!title || !desc) {
-                alert("Fill all fields");
-                return;
-            }
+        //     tasks.push({ title, desc });
 
-            tasks.push({ title, desc });
-
-            document.getElementById('taskTitle').value = "";
-            document.getElementById('taskDesc').value = "";
-            closeTaskModal();
-            alert("Task Created Successfully");
-        }
+        //     document.getElementById('taskTitle').value = "";
+        //     document.getElementById('taskDesc').value = "";
+        //     closeTaskModal();
+        //     alert("Task Created Successfully");
+        // }
 
         function closeModal() {
             document.getElementById('modalOverlay').style.display = 'none';
