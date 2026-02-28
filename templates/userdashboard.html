@@ -8,16 +8,26 @@
     <style>
         :root {
             --primary: #2563eb;
-            --primary-light: #eff6ff;
-            --bg-main: #f8fafc;
+            --primary-glow: rgba(37, 99, 235, 0.2);
+            --bg-main: #f1f5f9;
             --card-surface: #ffffff;
             --border-color: #e2e8f0;
             --text-main: #0f172a;
             --text-dim: #64748b;
             --success: #10b981;
             --danger: #ef4444;
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-            --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.1);
+            --dash-gradient: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -25,134 +35,128 @@
             font-family: 'Plus Jakarta Sans', sans-serif; 
             background: var(--bg-main); 
             color: var(--text-main);
-            line-height: 1.6;
-            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* HEADER */
         header {
-            height: 70px; background: #ffffff;
+            height: 70px; background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
             display: flex; align-items: center; justify-content: space-between;
             padding: 0 5%; border-bottom: 1px solid var(--border-color);
             position: sticky; top: 0; z-index: 100;
         }
 
-        .logo { font-size: 22px; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
+        .logo { font-size: 22px; font-weight: 800; color: var(--primary); }
 
         .header-right { display: flex; align-items: center; gap: 20px; }
-        .sign-out { 
-            color: var(--text-dim); font-size: 13px; font-weight: 700; 
-            cursor: pointer; transition: 0.3s;
-        }
-        .sign-out:hover { color: var(--danger); }
+        .sign-out { color: var(--text-dim); font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .sign-out:hover { color: var(--danger); transform: scale(1.05); }
         
         .top-avatar {
-            width: 42px; height: 42px; border-radius: 10px;
+            width: 40px; height: 40px; border-radius: 50%;
             background: var(--primary); color: white;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700;
+            display: flex; align-items: center; justify-content: center; font-weight: 700;
         }
 
-        main { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        main { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
 
-        /* DASHBOARD - Light Elevation */
+        /* NEW DASHBOARD THEME: DARK NEUMORPHIC */
         .dashboard-container {
-            background: #ffffff;
-            border: 1px solid var(--border-color); border-radius: 24px;
-            padding: 35px; margin-bottom: 40px;
+            background: var(--dash-gradient);
+            border-radius: 30px; padding: 40px; margin-bottom: 40px;
             display: flex; justify-content: space-between; align-items: center;
-            box-shadow: var(--shadow-sm);
+            color: white; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+            animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        .profile-info { display: flex; align-items: center; gap: 20px; }
         .main-avatar { 
-            width: 80px; height: 80px; background: var(--primary-light);
-            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            width: 80px; height: 80px; background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 22px; display: flex; align-items: center; justify-content: center;
             font-size: 32px; font-weight: 800; color: var(--primary);
         }
 
-        .stats-grid { display: flex; gap: 20px; }
-        .stat-item { text-align: left; padding: 0 20px; border-left: 2px solid var(--primary-light); }
-        .stat-value { display: block; font-size: 24px; font-weight: 800; color: var(--text-main); }
-        .stat-label { font-size: 11px; text-transform: uppercase; color: var(--text-dim); font-weight: 700; letter-spacing: 0.5px; }
+        .stat-item { text-align: left; padding: 0 25px; border-left: 1px solid rgba(255,255,255,0.1); }
+        .stat-value { display: block; font-size: 26px; font-weight: 800; color: #fff; }
+        .stat-label { font-size: 10px; text-transform: uppercase; color: #94a3b8; font-weight: 700; }
 
-        /* SECTION TITLES */
-        .section-header { margin: 40px 0 20px; display: flex; align-items: center; gap: 12px; }
-        .section-header h3 { font-size: 16px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+        /* CARDS */
+        .section-header { margin: 30px 0 20px; display: flex; align-items: center; gap: 12px; }
+        .section-header h3 { font-size: 14px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; }
         .section-header .line { flex: 1; height: 1px; background: var(--border-color); }
 
-        /* CARDS - High Border Contrast */
         .task-list { display: flex; flex-direction: column; gap: 16px; }
         
         .long-card {
             background: var(--card-surface);
-            padding: 24px 30px; border-radius: 18px;
+            padding: 24px 30px; border-radius: 20px;
             display: flex; align-items: center; justify-content: space-between;
-            border: 1px solid var(--border-color);
-            transition: 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-            cursor: pointer;
-            box-shadow: var(--shadow-sm);
+            border: 2px solid transparent;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: fadeInUp 0.5s ease backwards;
         }
 
         .long-card:hover { 
             border-color: var(--primary); 
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+            transform: scale(1.02) translateX(10px);
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.1);
         }
 
-        .assigned-card { border-left: 6px solid var(--primary); background: #fdfdfd; }
+        .assigned-card { border-left: 8px solid var(--primary); background: #ffffff; }
 
         .card-main-info { flex: 2; }
         .card-meta { flex: 1.5; padding: 0 25px; border-left: 1px solid var(--border-color); }
-        .card-action { flex: 1; text-align: right; }
-
-        .company-name { font-size: 11px; text-transform: uppercase; color: var(--primary); font-weight: 800; }
-        .task-name { font-size: 18px; font-weight: 700; color: var(--text-main); margin: 2px 0; }
         
-        /* ELIGIBILITY TAGS */
+        .company-name { font-size: 11px; text-transform: uppercase; color: var(--primary); font-weight: 800; }
+        .task-name { font-size: 18px; font-weight: 700; margin: 4px 0; }
+        
         .elig-tag {
-            display: inline-flex; align-items: center; gap: 5px;
-            padding: 4px 12px; border-radius: 6px;
-            font-size: 11px; font-weight: 700; margin-top: 8px;
+            display: inline-flex; align-items: center; padding: 4px 12px; 
+            border-radius: 20px; font-size: 11px; font-weight: 800; margin-top: 8px;
         }
-        .elig-ok { background: #dcfce7; color: #15803d; }
-        .elig-no { background: #fee2e2; color: #b91c1c; }
+        .elig-ok { background: #dcfce7; color: #166534; }
+        .elig-no { background: #fee2e2; color: #991b1b; }
 
         /* BUTTONS */
-        .search-placements-btn {
-            background: var(--text-main); color: #fff; padding: 16px;
-            border: none; border-radius: 14px; font-weight: 700; cursor: pointer;
-            width: 100%; transition: 0.3s; margin-bottom: 20px;
+        .primary-btn {
+            background: var(--primary); color: white; padding: 12px 24px;
+            border: none; border-radius: 12px; font-weight: 700; cursor: pointer;
+            transition: 0.3s;
         }
-        .search-placements-btn:hover { background: var(--primary); transform: scale(1.01); }
+        .primary-btn:hover { background: #1d4ed8; transform: translateY(-2px); box-shadow: 0 10px 15px -3px var(--primary-glow); }
 
-        .apply-btn {
-            background: var(--primary); color: white; padding: 10px 20px;
-            border: none; border-radius: 10px; font-weight: 700; cursor: pointer;
+        .search-trigger-btn {
+            background: var(--text-main); color: white; padding: 18px;
+            border: none; border-radius: 18px; font-weight: 800; cursor: pointer;
+            width: 100%; margin: 20px 0; transition: 0.3s;
+            animation: pulseGlow 2s infinite;
         }
 
         .filter-toggle {
-            display: flex; background: #f1f5f9; padding: 5px; border-radius: 12px;
+            display: flex; background: #e2e8f0; padding: 6px; border-radius: 16px;
             width: fit-content; margin: 30px auto; gap: 5px;
         }
         .toggle-btn {
-            padding: 8px 20px; border: none; border-radius: 8px; cursor: pointer;
-            font-weight: 700; color: var(--text-dim); background: transparent;
+            padding: 10px 25px; border: none; border-radius: 12px; cursor: pointer;
+            font-weight: 700; color: var(--text-dim); background: transparent; transition: 0.3s;
         }
-        .toggle-btn.active { background: white; color: var(--primary); box-shadow: var(--shadow-sm); }
+        .toggle-btn.active { background: white; color: var(--primary); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
 
         /* MODAL */
         .modal-overlay {
-            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.4);
-            backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 1000;
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 1000;
         }
         .modal {
-            background: #ffffff; padding: 40px; border-radius: 28px; width: 90%; max-width: 500px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            animation: pop 0.3s ease-out;
+            background: white; padding: 40px; border-radius: 30px; width: 90%; max-width: 500px;
+            transform: translateY(0); transition: 0.3s;
         }
 
-        @keyframes pop { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        /* Logic for animations delay */
+        .task-list > div:nth-child(1) { animation-delay: 0.1s; }
+        .task-list > div:nth-child(2) { animation-delay: 0.2s; }
+        .task-list > div:nth-child(3) { animation-delay: 0.3s; }
     </style>
 </head>
 <body>
@@ -160,37 +164,35 @@
 <header>
     <div class="logo">TASK BRIDGE</div>
     <div class="header-right">
-        <span class="sign-out" onclick="alert('Signed out')">Sign Out</span>
+        <span class="sign-out" onclick="location.reload()">Sign Out</span>
         <div class="top-avatar">AC</div>
     </div>
 </header>
 
 <main>
     <div class="dashboard-container">
-        <div class="profile-info">
+        <div class="profile-info" style="display:flex; align-items:center; gap:20px;">
             <div class="main-avatar">A</div>
             <div>
-                <h2 id="user-status-text" style="font-weight: 800;">Alex Carter</h2>
-                <p style="color: var(--text-dim); font-size: 14px; font-weight: 500;">Python • SQL • React</p>
+                <h2 style="font-size:28px; font-weight:800;">Alex Carter</h2>
+                <p style="color: #94a3b8; font-weight:500;">Senior Tech Analyst • 82% ATS</p>
             </div>
         </div>
-        <div class="stats-grid">
-            <div class="stat-item"><span class="stat-value">82%</span><span class="stat-label">ATS Score</span></div>
-            <div class="stat-item"><span class="stat-value">A+</span><span class="stat-label">Grade</span></div>
+        <div class="stats-grid" style="display:flex;">
+            <div class="stat-item"><span class="stat-value">14</span><span class="stat-label">Tasks Done</span></div>
+            <div class="stat-item"><span class="stat-value">A+</span><span class="stat-label">Placement</span></div>
         </div>
     </div>
 
     <div class="section-header">
-        <h3>Currently Assigned</h3>
+        <h3>Current Assignment</h3>
         <div class="line"></div>
     </div>
     <div class="task-list" id="assigned-container"></div>
 
-    <div style="margin-top: 40px;">
-        <button class="search-placements-btn" id="search-trigger" onclick="enableSearch()">
-            🔍 Browse New Opportunities
-        </button>
-    </div>
+    <button class="search-trigger-btn" id="search-trigger" onclick="enableSearch()">
+        🚀 EXPLORE NEW PLACEMENTS
+    </button>
 
     <section id="explorer-section" style="display:none;">
         <div class="filter-toggle">
@@ -206,7 +208,7 @@
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
         <div id="modal-content"></div>
-        <button style="margin-top:20px; width:100%; padding:12px; border:1px solid #e2e8f0; border-radius:10px; background:white; cursor:pointer; font-weight:700;" onclick="closeModal()">Close</button>
+        <button style="margin-top:20px; width:100%; padding:15px; border:none; border-radius:15px; background:#f1f5f9; cursor:pointer; font-weight:700;" onclick="closeModal()">Close Window</button>
     </div>
 </div>
 
@@ -215,15 +217,21 @@
     const userSkills = ['Python', 'SQL', 'React'];
 
     const assignedWorks = [
-        { by: 'UNICEF India', name: 'UI/UX Audit for Portal', due: 'March 15, 2026', desc: 'Running heuristic evaluations on global donor interfaces.' }
+        { 
+            by: 'UNICEF India', 
+            name: 'UI/UX Audit for Portal', 
+            due: 'March 15, 2026', 
+            desc: 'A full heuristic evaluation of the primary volunteer onboarding flow for UNICEF India portal.',
+            minAts: 0, skill: 'UI/UX'
+        }
     ];
 
     const placements = [
-        { type: 'ngo', by: 'Red Cross', name: 'Data Specialist', minAts: 70, skill: 'SQL', desc: 'Managing logistical data for emergency response.' },
-        { type: 'municipal', by: 'London Gov', name: 'Traffic Analyst', minAts: 85, skill: 'Python', desc: 'Using ML to optimize city-wide traffic signal intervals.' },
-        { type: 'others', by: 'SpaceX', name: 'Junior Dev', minAts: 90, skill: 'C++', desc: 'Software intern for telemetry systems.' },
-        { type: 'others', by: 'Global Bank', name: 'React Integrator', minAts: 75, skill: 'React', desc: 'Implementing secure dashboard components.' },
-        { type: 'ngo', by: 'GreenPeace', name: 'App Developer', minAts: 80, skill: 'React', desc: 'Building climate tracking tools for mobile.' }
+        { type: 'ngo', by: 'Red Cross', name: 'Data Specialist', minAts: 70, skill: 'SQL', desc: 'Managing donor records and emergency logistics data.' },
+        { type: 'municipal', by: 'London Gov', name: 'Traffic Analyst', minAts: 85, skill: 'Python', desc: 'ML optimization for smart city traffic systems.' },
+        { type: 'others', by: 'SpaceX', name: 'Software Intern', minAts: 90, skill: 'C++', desc: 'High-performance telemetry systems development.' },
+        { type: 'others', by: 'Stripe', name: 'React Developer', minAts: 75, skill: 'React', desc: 'Building next-gen payment dashboard components.' },
+        { type: 'ngo', by: 'GreenPeace', name: 'Web Architect', minAts: 80, skill: 'React', desc: 'Developing climate tracking visualization tools.' }
     ];
 
     function init() {
@@ -231,17 +239,19 @@
         assignedWorks.forEach(task => {
             const card = document.createElement('div');
             card.className = 'long-card assigned-card';
+            // FIXED: Added onclick to the card and button
+            card.onclick = () => openModal(task, true);
             card.innerHTML = `
                 <div class="card-main-info">
                     <span class="company-name">${task.by}</span>
                     <h3 class="task-name">${task.name}</h3>
                 </div>
                 <div class="card-meta">
-                    <span class="stat-label">Next Milestone</span>
-                    <p style="font-weight:700; font-size:14px;">${task.due}</p>
+                    <span class="stat-label">Deadline</span>
+                    <p style="font-weight:700; color:var(--primary);">${task.due}</p>
                 </div>
                 <div class="card-action">
-                    <button class="apply-btn" style="background:#f1f5f9; color:var(--text-main)">View Task</button>
+                    <button class="primary-btn">View Task</button>
                 </div>
             `;
             container.appendChild(card);
@@ -249,9 +259,11 @@
     }
 
     function enableSearch() {
-        document.getElementById('explorer-section').style.display = 'block';
+        const exp = document.getElementById('explorer-section');
+        exp.style.display = 'block';
         document.getElementById('search-trigger').style.display = 'none';
         filterTasks('all', document.querySelector('.toggle-btn.active'));
+        exp.scrollIntoView({ behavior: 'smooth' });
     }
 
     function filterTasks(cat, btn) {
@@ -261,25 +273,26 @@
         container.innerHTML = '';
         const filtered = cat === 'all' ? placements : placements.filter(p => p.type === cat);
 
-        filtered.forEach(task => {
-            const isEligible = userAts >= task.minAts && userSkills.includes(task.skill);
+        filtered.forEach((task, index) => {
+            const isEligible = userAts >= task.minAts;
             const card = document.createElement('div');
             card.className = 'long-card';
+            card.style.animationDelay = `${index * 0.1}s`;
             card.onclick = () => openModal(task, isEligible);
             card.innerHTML = `
                 <div class="card-main-info">
                     <span class="company-name">${task.by}</span>
                     <h3 class="task-name">${task.name}</h3>
                     <div class="elig-tag ${isEligible ? 'elig-ok' : 'elig-no'}">
-                        ${isEligible ? '✓ Eligible' : '✕ Min. '+task.minAts+'% ATS'}
+                        ${isEligible ? '✓ Match' : '✕ Requires ' + task.minAts + '% ATS'}
                     </div>
                 </div>
                 <div class="card-meta">
-                    <span class="stat-label">Requirement</span>
-                    <p style="font-size:14px; font-weight:600;">${task.skill}</p>
+                    <span class="stat-label">Focus Skill</span>
+                    <p style="font-weight:700;">${task.skill}</p>
                 </div>
                 <div class="card-action">
-                    <button class="apply-btn" style="${!isEligible ? 'background:#e2e8f0; color:#94a3b8; cursor:not-allowed;' : ''}">
+                    <button class="primary-btn" style="${!isEligible ? 'background:#cbd5e1; cursor:not-allowed;' : ''}">
                         ${isEligible ? 'Apply' : 'Locked'}
                     </button>
                 </div>
@@ -291,16 +304,16 @@
     function openModal(task, isEligible) {
         const content = document.getElementById('modal-content');
         content.innerHTML = `
-            <span class="company-name">${task.by}</span>
-            <h2 style="margin: 10px 0;">${task.name}</h2>
-            <p style="color:var(--text-dim); margin-bottom: 25px; font-size:15px;">${task.desc}</p>
-            <div style="padding:15px; border:1px solid #e2e8f0; border-radius:12px; font-size:14px;">
-                <p><strong>Required Skill:</strong> ${task.skill}</p>
-                <p><strong>Min ATS Score:</strong> ${task.minAts}%</p>
+            <span class="company-name" style="letter-spacing:2px;">${task.by}</span>
+            <h2 style="margin: 15px 0; font-size:24px; color:var(--text-main);">${task.name}</h2>
+            <p style="color:var(--text-dim); line-height:1.8; margin-bottom:25px;">${task.desc}</p>
+            <div style="background:#f8fafc; padding:20px; border-radius:20px; border:1px solid #e2e8f0;">
+                <p style="margin-bottom:8px;"><strong>Skill Category:</strong> ${task.skill}</p>
+                <p><strong>Min Eligibility:</strong> ${task.minAts}% ATS Score</p>
             </div>
-            <button class="search-placements-btn" style="margin-top:20px; ${!isEligible ? 'opacity:0.5; pointer-events:none;' : ''}" 
-                    onclick="alert('Success!')">
-                ${isEligible ? 'Submit Application' : 'Requirements Not Met'}
+            <button class="primary-btn" style="width:100%; margin-top:25px; padding:18px; ${!isEligible ? 'opacity:0.5; pointer-events:none;' : ''}" 
+                    onclick="alert('Action Confirmed!')">
+                ${isEligible ? 'Proceed with Action' : 'Locked Opportunity'}
             </button>
         `;
         document.getElementById('modalOverlay').style.display = 'flex';
