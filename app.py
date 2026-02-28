@@ -71,103 +71,6 @@ def company_comp():
 def company_signup():
     return render_template('companysignup.html')
 
-@app.route('/addcompany', methods=['POST'])
-def add_company():
-    email = request.form['email']
-    password = request.form['password']
-    company_name = request.form['company_name']
-    license_no = request.form['license_no']
-    org_type = request.form['org_type']
-    loc= request.form['location']
-   
-
-    try:
-        with sqlite3.connect(DB_PATH, timeout=20, check_same_thread=False) as conn:
-            cursor = conn.cursor()
-            cursor.execute(
-                "INSERT INTO org (NAME, EMAIL, PASS, LISNO, TYPE, LOCATION) VALUES (?, ?, ?, ?, ?, ?)", 
-                (company_name, email, password, license_no,org_type,loc)
-            )
-            conn.commit()
-    except sqlite3.OperationalError as e:
-        flash(f"Database error: {e}")
-        return render_template('companysignup.html')
-
-    return render_template('companydashboard.html', message='Company registered successfully.')
-
-@app.route('/adduser', methods=['POST'])
-def add_user():
-    name = request.form['name']
-    email = request.form['email']
-    password = request.form['password']
-    skills = request.form['skills']
-    socials = request.form['portfolio'] 
-    resume = request.files.get('resume')
-    pla= request.form['location']
-    
-    if resume:
-        resume_blob = resume.read()
-    else:
-        resume_blob = None
-
-    try:
-        with sqlite3.connect(DB_PATH, timeout=20, check_same_thread=False) as conn:
-            cursor = conn.cursor()
-            cursor.execute(
-                "INSERT INTO users (NAME, EMAIL, PASS, SKILLSET, GITNAME, RESUME, PLACE) VALUES (?, ?, ?, ?, ?, ?, ?)", 
-                (name, email, password, skills, socials, resume_blob, pla)
-            )
-            conn.commit()
-            print("Success")
-    except sqlite3.OperationalError as e:
-        flash(f"Database error: {e}")
-        return render_template('usersignup.html')
-
-    return render_template('login.html', message='User registered successfully.')
-
-@app.route('/login', methods=['POST'])
-def login_post():
-    email = request.form['email'].strip()
-    password = request.form['password'].strip()
-
-    try:
-        with sqlite3.connect(DB_PATH, timeout=20, check_same_thread=False) as conn:
-            cursor = conn.cursor()
-
-            # 1️⃣ Check in users table
-            cursor.execute("SELECT * FROM users WHERE email=?", (email,))
-            user = cursor.fetchone()
-
-            if user:
-                if password == user[4]:   # pass column index in users table
-                    return render_template('userdashboard.html', user=user)
-
-            # 2️⃣ If not in users, check in org table
-            cursor.execute("SELECT * FROM org WHERE email=?", (email,))
-            org = cursor.fetchone()
-
-            if org:
-                if password == org[5]:   # pass column index in org table
-                    return render_template('companydashboard.html', org=org)
-
-    except sqlite3.OperationalError as e:
-        flash(f"Database error: {e}")
-        return render_template('login.html')
-
-    # ❌ If nothing matched
-    return render_template('login.html', error="Invalid Credentials ❌")
-
-
-@app.route('/companytasks')
-def company_tasks():
-    return render_template('companytasks.html')
-
-@app.route('/companycompetitions')
-def company_competitions():
-    return render_template('companycompetitions.html')
-
-
-
 def calculate_github_score(username):
     base_url = "https://api.github.com/users/"
 
@@ -279,6 +182,107 @@ def calculate_github_score(username):
 def github_score(username):
     result = calculate_github_score(username)
     return result
+
+
+
+@app.route('/addcompany', methods=['POST'])
+def add_company():
+    email = request.form['email']
+    password = request.form['password']
+    company_name = request.form['company_name']
+    license_no = request.form['license_no']
+    org_type = request.form['org_type']
+    loc= request.form['location']
+   
+
+    try:
+        with sqlite3.connect(DB_PATH, timeout=20, check_same_thread=False) as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                "INSERT INTO org (NAME, EMAIL, PASS, LISNO, TYPE, LOCATION) VALUES (?, ?, ?, ?, ?, ?)", 
+                (company_name, email, password, license_no,org_type,loc)
+            )
+            conn.commit()
+    except sqlite3.OperationalError as e:
+        flash(f"Database error: {e}")
+        return render_template('companysignup.html')
+
+    return render_template('companydashboard.html', message='Company registered successfully.')
+
+@app.route('/adduser', methods=['POST'])
+def add_user():
+    name = request.form['name']
+    email = request.form['email']
+    password = request.form['password']
+    skills = request.form['skills']
+    socials = request.form['portfolio'] 
+    resume = request.files.get('resume')
+    pla= request.form['location']
+
+    gitsc= calculate_github_score(socials)
+    
+    if resume:
+        resume_blob = resume.read()
+    else:
+        resume_blob = None
+
+    try:
+        with sqlite3.connect(DB_PATH, timeout=20, check_same_thread=False) as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                "INSERT INTO users (NAME, EMAIL, PASS, SKILLSET, GITNAME, RESUME, PLACE,GITSCORE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
+                (name, email, password, skills, socials, resume_blob, pla,gitsc["github_score"])
+            )
+            conn.commit()
+            print("Success")
+    except sqlite3.OperationalError as e:
+        flash(f"Database error: {e}")
+        return render_template('usersignup.html')
+
+    return render_template('login.html', message='User registered successfully.')
+
+@app.route('/login', methods=['POST'])
+def login_post():
+    email = request.form['email'].strip()
+    password = request.form['password'].strip()
+
+    try:
+        with sqlite3.connect(DB_PATH, timeout=20, check_same_thread=False) as conn:
+            cursor = conn.cursor()
+
+            # 1️⃣ Check in users table
+            cursor.execute("SELECT * FROM users WHERE email=?", (email,))
+            user = cursor.fetchone()
+
+            if user:
+                if password == user[4]:   # pass column index in users table
+                    return render_template('userdashboard.html', user=user)
+
+            # 2️⃣ If not in users, check in org table
+            cursor.execute("SELECT * FROM org WHERE email=?", (email,))
+            org = cursor.fetchone()
+
+            if org:
+                if password == org[5]:   # pass column index in org table
+                    return render_template('companydashboard.html', org=org)
+
+    except sqlite3.OperationalError as e:
+        flash(f"Database error: {e}")
+        return render_template('login.html')
+
+    # ❌ If nothing matched
+    return render_template('login.html', error="Invalid Credentials ❌")
+
+
+@app.route('/companytasks')
+def company_tasks():
+    return render_template('companytasks.html')
+
+@app.route('/companycompetitions')
+def company_competitions():
+    return render_template('companycompetitions.html')
+
+
 
 
 
