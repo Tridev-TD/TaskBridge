@@ -46,6 +46,14 @@ def login():
 def user_signup():
     return render_template('usersignup.html')
 
+@app.route('/companytask')
+def company_task():
+    return render_template('companytasks.html')
+
+@app.route('/companycomp')
+def company_comp():
+    return render_template('companycompetitions.html')
+
 @app.route('/company-signup')
 def company_signup():
     return render_template('companysignup.html')
