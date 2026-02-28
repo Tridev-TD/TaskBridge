@@ -221,7 +221,7 @@ def add_user():
     ats_score = request.form.get("ats_score")
 
     gitsc= calculate_github_score(socials)
-    
+    avg= (float(gitsc["github_score"]) + float(ats_score)) / 2
     if resume:
         resume_blob = resume.read()
     else:
@@ -231,8 +231,8 @@ def add_user():
         with sqlite3.connect(DB_PATH, timeout=20, check_same_thread=False) as conn:
             cursor = conn.cursor()
             cursor.execute(
-                "INSERT INTO users (NAME, EMAIL, PASS, SKILLSET, GITNAME, RESUME, PLACE,GITSCORE,ATSCORE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-                (name, email, password, skills, socials, resume_blob, pla,gitsc["github_score"],ats_score)
+                "INSERT INTO users (NAME, EMAIL, PASS, SKILLSET, GITNAME, RESUME, PLACE,GITSCORE,ATSCORE,AVGSCORE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", 
+                (name, email, password, skills, socials, resume_blob, pla,gitsc["github_score"],ats_score,avg)
             )
             conn.commit()
             print("Success")
