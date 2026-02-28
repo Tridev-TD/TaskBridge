@@ -415,7 +415,8 @@
     </div>
 
     <script>
-        const userAts = 82;
+        
+        const userAts = "{{user[10]}}";
         const userSkills = ['Python', 'SQL', 'React'];
 
 
@@ -509,6 +510,27 @@
                 container.appendChild(card);
             });
         }
+        function setstatus(){
+                fetch("/setStatus", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        userId: "{{user[0]}}",
+                        taskId: 1
+                    })
+                }).then(res => res.json())
+                .then(data => {
+                    if(data.success){
+                        alert("Application Successful!");
+                        closeModal();
+                        init();
+                    } else {
+                        alert("Error applying for task. Please try again.");
+                    }
+                });
+        }
 
         function openModal(task, isEligible) {
             const content = document.getElementById('modal-content');
@@ -518,10 +540,10 @@
             <p style="color:var(--text-dim); line-height:1.8; margin-bottom:25px;">${task.desc}</p>
             <div style="background:#f8fafc; padding:20px; border-radius:20px; border:1px solid #e2e8f0;">
                 <p style="margin-bottom:8px;"><strong>Skill Category:</strong> ${task.skill}</p>
-                <p><strong>Min Eligibility:</strong> ${task.minAts}% ATS Score</p>
+                <p><strong>Min Eligibility:</strong> ${task.minAts}% Performance Score</p>
             </div>
             <button class="primary-btn" style="width:100%; margin-top:25px; padding:18px; ${!isEligible ? 'opacity:0.5; pointer-events:none;' : ''}" 
-                    onclick="alert('Action Confirmed!')">
+                    onclick="setstatus()">
                 ${isEligible ? 'Proceed with Action' : 'Locked Opportunity'}
             </button>
         `;

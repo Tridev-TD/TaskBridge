@@ -362,6 +362,26 @@ def get_placements():
 
     return jsonify(placements)
 
+@app.route('/setstatus', methods=['POST'])
+def set_status():
+    data = request.get_json()
+    
+    taskId = data.get("taskId")
+
+    try:
+        with sqlite3.connect(DB_PATH, timeout=20, check_same_thread=False) as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                UPDATE TASKS 
+                SET STATUS = 1 
+                WHERE TID = ?
+            """, (taskId,))
+            conn.commit()
+        return jsonify({"success": True})
+    except Exception as e:
+        print("ERROR:", e)
+        return jsonify({"success": False}), 500
+
 @app.route('/companytasks')
 def company_tasks():
     return render_template('companytasks.html')
