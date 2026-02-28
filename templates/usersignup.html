@@ -52,7 +52,7 @@
             color: #333;
         }
 
-       .login-box {
+        .login-box {
             background: white;
             padding: 40px;
             border-radius: 24px;
@@ -62,7 +62,7 @@
             animation: fadeInUp 0.6s ease-out;
         }
 
-       .shake {
+        .shake {
             animation: shake 0.3s ease-in-out;
         }
 
@@ -80,13 +80,13 @@
             margin-bottom: 30px;
         }
 
-       .form-grid {
+        .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 0 15px;
         }
 
-       .full-width {
+        .full-width {
             grid-column: span 2;
         }
 
@@ -156,7 +156,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
-       .error-msg {
+        .error-msg {
             color: #ff4d4d;
             font-size: 12px;
             grid-column: span 2;
@@ -166,14 +166,14 @@
             font-weight: 600;
         }
 
-       .footer-text {
+        .footer-text {
             text-align: center;
             margin-top: 25px;
             font-size: 14px;
             color: #666;
         }
 
-       .footer-text a {
+        .footer-text a {
             color: #007BFF;
             text-decoration: none;
             font-weight: 600;
@@ -194,7 +194,8 @@
 
                 <div class="full-width">
                     <label class="input-label">Skill Sets</label>
-                    <textarea name="skills" placeholder="e.g. Python, React, UI Design, Data Structures..." required></textarea>
+                    <textarea name="skills" placeholder="e.g. Python, React, UI Design, Data Structures..."
+                        required></textarea>
                 </div>
 
                 <div class="full-width">
@@ -213,8 +214,8 @@
                 </div>
 
                 <div class="full-width">
-                    <label class="input-label">Upload Resume (PDF preferred)</label>
-                    <input type="file" name="resume" accept=".pdf,.doc,.docx" required>
+                    <label class="input-label">Upload Resume</label>
+                    <input type="file" name="resume" accept=".pdf,.doc,.docx,.jpg,.png" required>
                 </div>
 
                 <div>
@@ -241,7 +242,7 @@
         const error = document.getElementById('error');
 
         form.addEventListener('submit', (e) => {
-            if (pass.value!== conf.value) {
+            if (pass.value !== conf.value) {
                 e.preventDefault();
                 error.style.display = 'block';
                 box.classList.add('shake');
