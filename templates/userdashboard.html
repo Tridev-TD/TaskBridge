@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Bridge | Professional Placements</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --primary: #2563eb;
@@ -20,228 +22,426 @@
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes pulseGlow {
-            0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+            }
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: var(--bg-main); 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-main);
             color: var(--text-main);
             overflow-x: hidden;
         }
 
         header {
-            height: 70px; background: rgba(255, 255, 255, 0.8);
+            height: 70px;
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 5%; border-bottom: 1px solid var(--border-color);
-            position: sticky; top: 0; z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .logo { font-size: 22px; font-weight: 800; color: var(--primary); }
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary);
+        }
 
-        .header-right { display: flex; align-items: center; gap: 20px; }
-        .sign-out { color: var(--text-dim); font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.3s; }
-        .sign-out:hover { color: var(--danger); transform: scale(1.05); }
-        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .sign-out {
+            color: var(--text-dim);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .sign-out:hover {
+            color: var(--danger);
+            transform: scale(1.05);
+        }
+
         .top-avatar {
-            width: 40px; height: 40px; border-radius: 50%;
-            background: var(--primary); color: white;
-            display: flex; align-items: center; justify-content: center; font-weight: 700;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
         }
 
-        main { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+        main {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
 
         /* NEW DASHBOARD THEME: DARK NEUMORPHIC */
         .dashboard-container {
             background: var(--dash-gradient);
-            border-radius: 30px; padding: 40px; margin-bottom: 40px;
-            display: flex; justify-content: space-between; align-items: center;
-            color: white; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+            border-radius: 30px;
+            padding: 40px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
             animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        .main-avatar { 
-            width: 80px; height: 80px; background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 22px; display: flex; align-items: center; justify-content: center;
-            font-size: 32px; font-weight: 800; color: var(--primary);
+        .main-avatar {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
         }
 
-        .stat-item { text-align: left; padding: 0 25px; border-left: 1px solid rgba(255,255,255,0.1); }
-        .stat-value { display: block; font-size: 26px; font-weight: 800; color: #fff; }
-        .stat-label { font-size: 10px; text-transform: uppercase; color: #94a3b8; font-weight: 700; }
+        .stat-item {
+            text-align: left;
+            padding: 0 25px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 26px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #94a3b8;
+            font-weight: 700;
+        }
 
         /* CARDS */
-        .section-header { margin: 30px 0 20px; display: flex; align-items: center; gap: 12px; }
-        .section-header h3 { font-size: 14px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; }
-        .section-header .line { flex: 1; height: 1px; background: var(--border-color); }
+        .section-header {
+            margin: 30px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-        .task-list { display: flex; flex-direction: column; gap: 16px; }
-        
+        .section-header h3 {
+            font-size: 14px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .section-header .line {
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
         .long-card {
             background: var(--card-surface);
-            padding: 24px 30px; border-radius: 20px;
-            display: flex; align-items: center; justify-content: space-between;
+            padding: 24px 30px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             border: 2px solid transparent;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             animation: fadeInUp 0.5s ease backwards;
         }
 
-        .long-card:hover { 
-            border-color: var(--primary); 
+        .long-card:hover {
+            border-color: var(--primary);
             transform: scale(1.02) translateX(10px);
-            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.1);
         }
 
-        .assigned-card { border-left: 8px solid var(--primary); background: #ffffff; }
+        .assigned-card {
+            border-left: 8px solid var(--primary);
+            background: #ffffff;
+        }
 
-        .card-main-info { flex: 2; }
-        .card-meta { flex: 1.5; padding: 0 25px; border-left: 1px solid var(--border-color); }
-        
-        .company-name { font-size: 11px; text-transform: uppercase; color: var(--primary); font-weight: 800; }
-        .task-name { font-size: 18px; font-weight: 700; margin: 4px 0; }
-        
+        .card-main-info {
+            flex: 2;
+        }
+
+        .card-meta {
+            flex: 1.5;
+            padding: 0 25px;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .company-name {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .task-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 4px 0;
+        }
+
         .elig-tag {
-            display: inline-flex; align-items: center; padding: 4px 12px; 
-            border-radius: 20px; font-size: 11px; font-weight: 800; margin-top: 8px;
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+            margin-top: 8px;
         }
-        .elig-ok { background: #dcfce7; color: #166534; }
-        .elig-no { background: #fee2e2; color: #991b1b; }
+
+        .elig-ok {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .elig-no {
+            background: #fee2e2;
+            color: #991b1b;
+        }
 
         /* BUTTONS */
         .primary-btn {
-            background: var(--primary); color: white; padding: 12px 24px;
-            border: none; border-radius: 12px; font-weight: 700; cursor: pointer;
+            background: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
             transition: 0.3s;
         }
-        .primary-btn:hover { background: #1d4ed8; transform: translateY(-2px); box-shadow: 0 10px 15px -3px var(--primary-glow); }
+
+        .primary-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px var(--primary-glow);
+        }
 
         .search-trigger-btn {
-            background: var(--text-main); color: white; padding: 18px;
-            border: none; border-radius: 18px; font-weight: 800; cursor: pointer;
-            width: 100%; margin: 20px 0; transition: 0.3s;
+            background: var(--text-main);
+            color: white;
+            padding: 18px;
+            border: none;
+            border-radius: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+            margin: 20px 0;
+            transition: 0.3s;
             animation: pulseGlow 2s infinite;
         }
 
         .filter-toggle {
-            display: flex; background: #e2e8f0; padding: 6px; border-radius: 16px;
-            width: fit-content; margin: 30px auto; gap: 5px;
+            display: flex;
+            background: #e2e8f0;
+            padding: 6px;
+            border-radius: 16px;
+            width: fit-content;
+            margin: 30px auto;
+            gap: 5px;
         }
+
         .toggle-btn {
-            padding: 10px 25px; border: none; border-radius: 12px; cursor: pointer;
-            font-weight: 700; color: var(--text-dim); background: transparent; transition: 0.3s;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--text-dim);
+            background: transparent;
+            transition: 0.3s;
         }
-        .toggle-btn.active { background: white; color: var(--primary); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+
+        .toggle-btn.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
 
         /* MODAL */
         .modal-overlay {
-            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 1000;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
         }
+
         .modal {
-            background: white; padding: 40px; border-radius: 30px; width: 90%; max-width: 500px;
-            transform: translateY(0); transition: 0.3s;
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            width: 90%;
+            max-width: 500px;
+            transform: translateY(0);
+            transition: 0.3s;
         }
 
         /* Logic for animations delay */
-        .task-list > div:nth-child(1) { animation-delay: 0.1s; }
-        .task-list > div:nth-child(2) { animation-delay: 0.2s; }
-        .task-list > div:nth-child(3) { animation-delay: 0.3s; }
+        .task-list>div:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .task-list>div:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .task-list>div:nth-child(3) {
+            animation-delay: 0.3s;
+        }
     </style>
 </head>
+
 <body>
 
-<header>
-    <div class="logo">TASK BRIDGE</div>
-    <div class="header-right">
-        <span class="sign-out" onclick="location.reload()">Sign Out</span>
-        <div class="top-avatar">AC</div>
-    </div>
-</header>
+    <header>
+        <div class="logo">TASK BRIDGE</div>
+        <div class="header-right">
+            <a href="login.html"><span class="sign-out">Sign Out</span></a>
+            <div class="top-avatar">AC</div>
+        </div>
+    </header>
 
-<main>
-    <div class="dashboard-container">
-        <div class="profile-info" style="display:flex; align-items:center; gap:20px;">
-            <div class="main-avatar">A</div>
-            <div>
-                <h2 style="font-size:28px; font-weight:800;">Alex Carter</h2>
-                <p style="color: #94a3b8; font-weight:500;">Senior Tech Analyst • 82% ATS</p>
+    <main>
+        <div class="dashboard-container">
+            <div class="profile-info" style="display:flex; align-items:center; gap:20px;">
+                <div class="main-avatar">A</div>
+                <div>
+                    <h2 style="font-size:28px; font-weight:800;">{{user[1]}}</h2>
+                    <p style="color: #94a3b8; font-weight:500;">Senior Tech Analyst • 82% ATS</p>
+                </div>
+            </div>
+            <div class="stats-grid" style="display:flex;">
+                <!-- <div class="stat-item"><span class="stat-value">2</span><span class="stat-label">Tasks Done</span>
+                </div> -->
+                <div class="stat-item"><span class="stat-value">1</span><span class="stat-label">Placement</span></div>
             </div>
         </div>
-        <div class="stats-grid" style="display:flex;">
-            <div class="stat-item"><span class="stat-value">14</span><span class="stat-label">Tasks Done</span></div>
-            <div class="stat-item"><span class="stat-value">A+</span><span class="stat-label">Placement</span></div>
+
+        <div class="section-header">
+            <h3>Current Assignment</h3>
+            <div class="line"></div>
+        </div>
+        <div class="task-list" id="assigned-container"></div>
+
+        <button class="search-trigger-btn" id="search-trigger" onclick="enableSearch()">
+            🚀 EXPLORE NEW PLACEMENTS
+        </button>
+
+        <section id="explorer-section" style="display:none;">
+            <div class="filter-toggle">
+                <button class="toggle-btn active" onclick="filterTasks('all', this)">All</button>
+                <button class="toggle-btn" onclick="filterTasks('ngo', this)">NGO</button>
+                <button class="toggle-btn" onclick="filterTasks('municipal', this)">Municipal</button>
+                <button class="toggle-btn" onclick="filterTasks('others', this)">Others</button>
+            </div>
+            <div class="task-list" id="explorer-container"></div>
+        </section>
+    </main>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div id="modal-content"></div>
+            <button
+                style="margin-top:20px; width:100%; padding:15px; border:none; border-radius:15px; background:#f1f5f9; cursor:pointer; font-weight:700;"
+                onclick="closeModal()">Close Window</button>
         </div>
     </div>
 
-    <div class="section-header">
-        <h3>Current Assignment</h3>
-        <div class="line"></div>
-    </div>
-    <div class="task-list" id="assigned-container"></div>
+    <script>
+        const userAts = 82;
+        const userSkills = ['Python', 'SQL', 'React'];
 
-    <button class="search-trigger-btn" id="search-trigger" onclick="enableSearch()">
-        🚀 EXPLORE NEW PLACEMENTS
-    </button>
+        const assignedWorks = [
+            {
+                by: 'UNICEF India',
+                name: 'UI/UX Audit for Portal',
+                due: 'March 15, 2026',
+                desc: 'A full heuristic evaluation of the primary volunteer onboarding flow for UNICEF India portal.',
+                minAts: 0, skill: 'UI/UX'
+            }
+        ];
 
-    <section id="explorer-section" style="display:none;">
-        <div class="filter-toggle">
-            <button class="toggle-btn active" onclick="filterTasks('all', this)">All</button>
-            <button class="toggle-btn" onclick="filterTasks('ngo', this)">NGO</button>
-            <button class="toggle-btn" onclick="filterTasks('municipal', this)">Municipal</button>
-            <button class="toggle-btn" onclick="filterTasks('others', this)">Others</button>
-        </div>
-        <div class="task-list" id="explorer-container"></div>
-    </section>
-</main>
+        const placements = [
+            { type: 'ngo', by: 'Red Cross', name: 'Data Specialist', minAts: 70, skill: 'SQL', desc: 'Managing donor records and emergency logistics data.' },
+            { type: 'municipal', by: 'London Gov', name: 'Traffic Analyst', minAts: 85, skill: 'Python', desc: 'ML optimization for smart city traffic systems.' },
+            { type: 'others', by: 'SpaceX', name: 'Software Intern', minAts: 90, skill: 'C++', desc: 'High-performance telemetry systems development.' },
+            { type: 'others', by: 'Stripe', name: 'React Developer', minAts: 75, skill: 'React', desc: 'Building next-gen payment dashboard components.' },
+            { type: 'ngo', by: 'GreenPeace', name: 'Web Architect', minAts: 80, skill: 'React', desc: 'Developing climate tracking visualization tools.' }
+        ];
 
-<div class="modal-overlay" id="modalOverlay">
-    <div class="modal">
-        <div id="modal-content"></div>
-        <button style="margin-top:20px; width:100%; padding:15px; border:none; border-radius:15px; background:#f1f5f9; cursor:pointer; font-weight:700;" onclick="closeModal()">Close Window</button>
-    </div>
-</div>
-
-<script>
-    const userAts = 82;
-    const userSkills = ['Python', 'SQL', 'React'];
-
-    const assignedWorks = [
-        { 
-            by: 'UNICEF India', 
-            name: 'UI/UX Audit for Portal', 
-            due: 'March 15, 2026', 
-            desc: 'A full heuristic evaluation of the primary volunteer onboarding flow for UNICEF India portal.',
-            minAts: 0, skill: 'UI/UX'
-        }
-    ];
-
-    const placements = [
-        { type: 'ngo', by: 'Red Cross', name: 'Data Specialist', minAts: 70, skill: 'SQL', desc: 'Managing donor records and emergency logistics data.' },
-        { type: 'municipal', by: 'London Gov', name: 'Traffic Analyst', minAts: 85, skill: 'Python', desc: 'ML optimization for smart city traffic systems.' },
-        { type: 'others', by: 'SpaceX', name: 'Software Intern', minAts: 90, skill: 'C++', desc: 'High-performance telemetry systems development.' },
-        { type: 'others', by: 'Stripe', name: 'React Developer', minAts: 75, skill: 'React', desc: 'Building next-gen payment dashboard components.' },
-        { type: 'ngo', by: 'GreenPeace', name: 'Web Architect', minAts: 80, skill: 'React', desc: 'Developing climate tracking visualization tools.' }
-    ];
-
-    function init() {
-        const container = document.getElementById('assigned-container');
-        assignedWorks.forEach(task => {
-            const card = document.createElement('div');
-            card.className = 'long-card assigned-card';
-            // FIXED: Added onclick to the card and button
-            card.onclick = () => openModal(task, true);
-            card.innerHTML = `
+        function init() {
+            const container = document.getElementById('assigned-container');
+            assignedWorks.forEach(task => {
+                const card = document.createElement('div');
+                card.className = 'long-card assigned-card';
+                // FIXED: Added onclick to the card and button
+                card.onclick = () => openModal(task, true);
+                card.innerHTML = `
                 <div class="card-main-info">
                     <span class="company-name">${task.by}</span>
                     <h3 class="task-name">${task.name}</h3>
@@ -254,32 +454,32 @@
                     <button class="primary-btn">View Task</button>
                 </div>
             `;
-            container.appendChild(card);
-        });
-    }
+                container.appendChild(card);
+            });
+        }
 
-    function enableSearch() {
-        const exp = document.getElementById('explorer-section');
-        exp.style.display = 'block';
-        document.getElementById('search-trigger').style.display = 'none';
-        filterTasks('all', document.querySelector('.toggle-btn.active'));
-        exp.scrollIntoView({ behavior: 'smooth' });
-    }
+        function enableSearch() {
+            const exp = document.getElementById('explorer-section');
+            exp.style.display = 'block';
+            document.getElementById('search-trigger').style.display = 'none';
+            filterTasks('all', document.querySelector('.toggle-btn.active'));
+            exp.scrollIntoView({ behavior: 'smooth' });
+        }
 
-    function filterTasks(cat, btn) {
-        document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const container = document.getElementById('explorer-container');
-        container.innerHTML = '';
-        const filtered = cat === 'all' ? placements : placements.filter(p => p.type === cat);
+        function filterTasks(cat, btn) {
+            document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const container = document.getElementById('explorer-container');
+            container.innerHTML = '';
+            const filtered = cat === 'all' ? placements : placements.filter(p => p.type === cat);
 
-        filtered.forEach((task, index) => {
-            const isEligible = userAts >= task.minAts;
-            const card = document.createElement('div');
-            card.className = 'long-card';
-            card.style.animationDelay = `${index * 0.1}s`;
-            card.onclick = () => openModal(task, isEligible);
-            card.innerHTML = `
+            filtered.forEach((task, index) => {
+                const isEligible = userAts >= task.minAts;
+                const card = document.createElement('div');
+                card.className = 'long-card';
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.onclick = () => openModal(task, isEligible);
+                card.innerHTML = `
                 <div class="card-main-info">
                     <span class="company-name">${task.by}</span>
                     <h3 class="task-name">${task.name}</h3>
@@ -297,13 +497,13 @@
                     </button>
                 </div>
             `;
-            container.appendChild(card);
-        });
-    }
+                container.appendChild(card);
+            });
+        }
 
-    function openModal(task, isEligible) {
-        const content = document.getElementById('modal-content');
-        content.innerHTML = `
+        function openModal(task, isEligible) {
+            const content = document.getElementById('modal-content');
+            content.innerHTML = `
             <span class="company-name" style="letter-spacing:2px;">${task.by}</span>
             <h2 style="margin: 15px 0; font-size:24px; color:var(--text-main);">${task.name}</h2>
             <p style="color:var(--text-dim); line-height:1.8; margin-bottom:25px;">${task.desc}</p>
@@ -316,12 +516,13 @@
                 ${isEligible ? 'Proceed with Action' : 'Locked Opportunity'}
             </button>
         `;
-        document.getElementById('modalOverlay').style.display = 'flex';
-    }
+            document.getElementById('modalOverlay').style.display = 'flex';
+        }
 
-    function closeModal() { document.getElementById('modalOverlay').style.display = 'none'; }
+        function closeModal() { document.getElementById('modalOverlay').style.display = 'none'; }
 
-    init();
-</script>
+        init();
+    </script>
 </body>
+
 </html>

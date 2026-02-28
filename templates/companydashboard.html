@@ -4,10 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Host Dashboard | Task Bridge</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Task Bridge | Professional Placements</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <style>
+        :root {
+            --primary: #2563eb;
+            --bg-main: #f1f5f9;
+            --card-surface: #ffffff;
+            --border-color: #e2e8f0;
+            --text-main: #0f172a;
+            --text-dim: #64748b;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -15,169 +25,172 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f4f7fa;
-            color: #333;
-            display: flex;
-            min-height: 100vh;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-main);
         }
 
-        /* --- Header --- */
         header {
-            position: fixed;
-            top: 0;
-            right: 0;
-            left: 0;
             height: 70px;
             background: white;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 40px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            z-index: 100;
+            padding: 0 5%;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .logo-section h2 {
-            font-size: 20px;
-            font-weight: 700;
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary);
         }
 
-        .user-nav {
+        .header-right {
             display: flex;
             align-items: center;
             gap: 20px;
         }
 
-        .avatar {
-            width: 38px;
-            height: 38px;
+        .top-avatar {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: #007BFF;
+            background: var(--primary);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
+            font-weight: 700;
         }
 
-        .sign-out-btn {
-            padding: 8px 16px;
-            border-radius: 8px;
-            border: 1.5px solid #ff4d4d;
-            color: #ff4d4d;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .sign-out-btn:hover {
-            background: #ff4d4d;
-            color: white;
-        }
-
-        /* --- Main --- */
         main {
-            margin-top: 70px;
-            padding: 40px;
-            width: 100%;
             max-width: 1000px;
-            margin-inline: auto;
+            margin: 30px auto;
+            padding: 0 20px;
         }
 
-        .wide-dashboard {
-            background: #0f172a;
+        .dashboard-container {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border-radius: 30px;
+            padding: 40px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             color: white;
-            border-radius: 24px;
-            padding: 25px 40px; /* Reduced height */
+        }
+
+        .main-avatar {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-item {
+            text-align: left;
+            padding: 0 25px;
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-value {
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #94a3b8;
+        }
+
+        .section-header {
+            margin: 30px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-header h3 {
+            font-size: 14px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+
+        .section-header .line {
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .long-card {
+            background: var(--card-surface);
+            padding: 24px 30px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 40px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Gradient Glow behind the stats */
-        .wide-dashboard::after {
-            content: ''; position: absolute; top: -50%; left: -10%;
-            width: 40%; height: 200%; background: radial-gradient(circle, rgba(0,123,255,0.15) 0%, transparent 70%);
-            z-index: 1;
-        }
-
-        .user-profile-side {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            z-index: 2;
-            flex: 1;
-        }
-
-        .large-avatar {
-            width: 60px; height: 60px; border-radius: 16px;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 22px; font-weight: 700; border: 2px solid rgba(255,255,255,0.2);
-        }
-
-        .user-details h2 { font-size: 20px; font-weight: 700; }
-        .user-details p { font-size: 13px; color: #94a3b8; }
-
-        .stats-container {
-            display: flex;
-            gap: 40px;
-            z-index: 2;
-            border-left: 1px solid rgba(255,255,255,0.1);
-            padding-left: 40px;
-        }
-
-        .stat-card { text-align: left; }
-        .stat-value { font-size: 24px; font-weight: 800; display: block; }
-        .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #64748b; }
-
-
-        .action-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 30px;
-        }
-
-        /* Make cards behave like links */
-        .action-card {
-            display: block;
-            text-decoration: none;
-            background: white;
-            border-radius: 22px;
-            padding: 40px;
-            border: 2px solid #f0f0f0;
+            border-left: 8px solid var(--primary);
+            cursor: pointer;
             transition: 0.3s;
-            text-align: center;
-            color: inherit;
         }
 
-        .action-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-            border-color: #007BFF;
+        .long-card:hover {
+            transform: translateX(8px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
         }
 
-        .action-icon {
-            font-size: 42px;
-            margin-bottom: 20px;
+        .company-name {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--primary);
+            font-weight: 800;
         }
 
-        .action-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 12px;
+        .task-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 4px 0;
         }
 
-        .action-desc {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 20px;
+        .primary-btn {
+            background: var(--primary);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 500px;
         }
     </style>
 </head>
@@ -185,67 +198,188 @@
 <body>
 
     <header>
-        <div class="logo-section">
-            <h2>Task Bridge</h2>
-        </div>
-        <div class="user-nav">
-            <div class="avatar">{{user[3][0] if user else 'C'}}</div>
-            <a href="login.html" class="sign-out-btn">Sign Out</a>
+        <div class="logo">TASK BRIDGE</div>
+        <div class="header-right">
+            <a href="login.html"><span class="sign-out">Sign Out</span></a>
+            <div class="top-avatar">AC</div>
         </div>
     </header>
 
     <main>
-        <div class="wide-dashboard">
-            <div class="user-profile-side">
-                <div class="large-avatar">{{user[3][0] if user else 'C'}}</div>
-                <div class="user-details">
-                    <h2>{{user[3] if user else 'Company Name'}}</h2>
-                    <p>Verified Company •</p>
+
+        <div class="dashboard-container">
+            <div style="display:flex; align-items:center; gap:20px;">
+                <div class="main-avatar">A</div>
+                <div>
+                    <h2 style="font-size:28px; font-weight:800;">{{org[0]}}</h2>
+                    <p style="color:#94a3b8;">Active Organization Team</p>
                 </div>
             </div>
-
-            <div class="stats-container">
-                <div class="stat-card">
-                    <span class="stat-value">2,450</span>
-                    <span class="stat-label">Points Earned</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-value">12</span>
-                    <span class="stat-label">Completed Tasks</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-value">3</span>
-                    <span class="stat-label">Active Bounties</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-value">Top 5%</span>
-                    <span class="stat-label">Global Rank</span>
+            <div style="display:flex;">
+                <div class="stat-item">
+                    <span class="stat-value" id="member-count">3</span>
+                    <span class="stat-label">Active Members</span>
                 </div>
             </div>
         </div>
 
-        <div class="action-grid">
-
-            <!-- Redirect to Add Task Page -->
-            <a href="/companytasks" class="action-card">
-                <div class="action-icon">➕</div>
-                <h3 class="action-title">Add A New Work</h3>
-                <p class="action-desc">
-                    Post a new micro-task for engineers.
-                </p>
-            </a>
-
-            <!-- Redirect to Add Competition Page -->
-            <a href="/companycompetitions" class="action-card">
-                <div class="action-icon">📂</div>
-                <h3 class="action-title">Review Your Works</h3>
-                <p class="action-desc">
-                    Create a new competition for engineers.
-                </p>
-            </a>
-
+        <!-- ADD TASK BUTTON (NO UI CHANGE TO EXISTING) -->
+        <div style="margin-bottom:20px;">
+            <button class="primary-btn" onclick="openAddTaskModal()">+ Add Task</button>
         </div>
+
+        <div class="section-header">
+            <h3>Active Team Members</h3>
+            <div class="line"></div>
+        </div>
+
+        <div class="task-list" id="assigned-container"></div>
+
     </main>
+
+    <!-- EXISTING MODAL -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div id="modal-content"></div>
+            <button
+                style="margin-top:20px; width:100%; padding:15px; border:none; border-radius:15px; background:#f1f5f9; cursor:pointer; font-weight:700;"
+                onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <!-- NEW ADD TASK MODAL -->
+    <div class="modal-overlay" id="taskModal">
+        <div class="modal">
+            <h2>Add New Task</h2>
+            <input id="taskTitle" placeholder="Task Title"
+                style="width:100%; padding:12px; margin-top:15px; border:1px solid #e2e8f0; border-radius:12px;">
+            <textarea id="taskDesc" placeholder="Task Description"
+                style="width:100%; padding:12px; margin-top:15px; border:1px solid #e2e8f0; border-radius:12px;"></textarea>
+            <button class="primary-btn" style="width:100%; margin-top:20px;" onclick="addTask()">Create Task</button>
+            <button
+                style="margin-top:10px; width:100%; padding:15px; border:none; border-radius:15px; background:#f1f5f9; cursor:pointer; font-weight:700;"
+                onclick="closeTaskModal()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+
+        const organizationMembers = [
+            { name: "Sarah Mitchell", role: "UI/UX Designer", ats: 88, skills: ["Figma", "UX Research", "Accessibility"], experience: "3 Years", email: "sarah.m@unicef.org", currentTask: null },
+            { name: "Daniel Wong", role: "Frontend Engineer", ats: 91, skills: ["React", "TypeScript", "Performance"], experience: "4 Years", email: "daniel.w@unicef.org", currentTask: null },
+            { name: "Priya Sharma", role: "Data Analyst", ats: 84, skills: ["Python", "SQL", "Data Visualization"], experience: "2 Years", email: "priya.s@unicef.org", currentTask: null }
+        ];
+
+        let tasks = [];
+
+        function init() {
+            const container = document.getElementById('assigned-container');
+            container.innerHTML = "";
+
+            organizationMembers.forEach(member => {
+                const card = document.createElement('div');
+                card.className = 'long-card';
+                card.onclick = () => openMemberModal(member);
+
+                card.innerHTML = `
+            <div>
+                <span class="company-name">{{org[0]}}</span>
+                <h3 class="task-name">${member.name}</h3>
+                <p style="color:var(--text-dim); font-weight:600;">
+                    ${member.role}
+                </p>
+            </div>
+
+            <div>
+                <span style="font-size:12px; color:var(--text-dim);">Current Task</span>
+                <p style="font-weight:800; color:var(--primary);">
+                    ${member.currentTask ? member.currentTask : "None"}
+                </p>
+            </div>
+
+            <button class="primary-btn">View Profile</button>
+        `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function openMemberModal(member) {
+            const content = document.getElementById('modal-content');
+
+            content.innerHTML = `
+        <span class="company-name">UNICEF INDIA TEAM</span>
+        <h2 style="margin:15px 0;">${member.name}</h2>
+        <p style="color:var(--text-dim); font-weight:600;">${member.role}</p>
+
+        <div style="margin-top:20px; padding:20px; background:#f8fafc; border-radius:15px;">
+            <p><strong>Current Task:</strong> ${member.currentTask || "None"}</p>
+            <p><strong>ATS Score:</strong> ${member.ats}%</p>
+            <p><strong>Experience:</strong> ${member.experience}</p>
+            <p><strong>Email:</strong> ${member.email}</p>
+        </div>
+
+        <button class="primary-btn" style="width:100%; margin-top:25px; padding:15px;"
+            onclick="assignTaskPrompt('${member.name}')">
+            Assign Task
+        </button>
+    `;
+
+            document.getElementById('modalOverlay').style.display = 'flex';
+        }
+
+        function assignTaskPrompt(memberName) {
+            if (tasks.length === 0) {
+                alert("No tasks available.");
+                return;
+            }
+
+            const member = organizationMembers.find(m => m.name === memberName);
+
+            if (member.currentTask) {
+                alert("This member is already working on a task.");
+                return;
+            }
+
+            member.currentTask = tasks[0].title;
+            tasks.shift();
+
+            closeModal();
+            init();
+        }
+
+        function openAddTaskModal() {
+            document.getElementById('taskModal').style.display = 'flex';
+        }
+
+        function closeTaskModal() {
+            document.getElementById('taskModal').style.display = 'none';
+        }
+
+        function addTask() {
+            const title = document.getElementById('taskTitle').value;
+            const desc = document.getElementById('taskDesc').value;
+
+            if (!title || !desc) {
+                alert("Fill all fields");
+                return;
+            }
+
+            tasks.push({ title, desc });
+
+            document.getElementById('taskTitle').value = "";
+            document.getElementById('taskDesc').value = "";
+            closeTaskModal();
+            alert("Task Created Successfully");
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+        }
+
+        init();
+
+    </script>
 
 </body>
 
