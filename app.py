@@ -1,6 +1,8 @@
 from flask import Flask, flash, render_template, request
 import sqlite3
 import os
+import requests
+from flask import jsonify
 
 # --- Setup paths and Flask ---
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -146,6 +148,122 @@ def company_tasks():
 def company_competitions():
     return render_template('companycompetitions.html')
 
+
+
+def calculate_github_score(username):
+    base_url = "https://api.github.com/users/"
+
+    # Fetch user profile
+    user_res = requests.get(base_url + username)
+    if user_res.status_code != 200:
+        return {"error": "User not found"}
+
+    user_data = user_res.json()
+
+    # Fetch repositories
+    repo_res = requests.get(base_url + username + "/repos?per_page=100")
+    repos = repo_res.json()
+
+    # Basic metrics
+    public_repos = user_data.get("public_repos", 0)
+    followers = user_data.get("followers", 0)
+
+    total_stars = 0
+    total_forks = 0
+    languages = set()
+
+    for repo in repos:
+        total_stars += repo.get("stargazers_count", 0)
+        total_forks += repo.get("forks_count", 0)
+        if repo.get("language"):
+            languages.add(repo.get("language"))
+
+    # ---------- SCORING ----------
+
+    # 1. Repo Score (20)
+    repo_score = min(public_repos * 2, 20)
+
+    # 2. Star Score (20)
+    star_score = min(total_stars * 1.5, 20)
+
+    # 3. Fork Score (10)
+    fork_score = min(total_forks * 1, 10)
+
+    # 4. Language Score (10)
+    lang_count = len(languages)
+    if lang_count >= 6:
+        language_score = 10
+    elif lang_count >= 4:
+        language_score = 7
+    elif lang_count >= 2:
+        language_score = 5
+    else:
+        language_score = 2
+
+    # 5. Community Score (10)
+    community_score = min(followers * 0.5, 10)
+
+    # 6. Profile Completeness (10)
+    profile_score = 0
+    if user_data.get("bio"):
+        profile_score += 2
+    if user_data.get("location"):
+        profile_score += 2
+    if user_data.get("blog"):
+        profile_score += 2
+    if user_data.get("avatar_url"):
+        profile_score += 2
+    if public_repos > 0:
+        profile_score += 2
+
+    # Simple activity score based on repo updates (20)
+    activity_score = 0
+    recent_active = 0
+    for repo in repos:
+        if repo.get("updated_at"):
+            recent_active += 1
+    activity_score = min(recent_active, 20)
+
+    # Final Score
+    github_score = (
+        repo_score +
+        star_score +
+        fork_score +
+        language_score +
+        community_score +
+        profile_score +
+        activity_score
+    )
+
+    github_score = min(round(github_score, 2), 100)
+
+    return {
+        "username": username,
+        "github_score": github_score,
+        "breakdown": {
+            "repo_score": repo_score,
+            "star_score": star_score,
+            "fork_score": fork_score,
+            "language_score": language_score,
+            "community_score": community_score,
+            "profile_score": profile_score,
+            "activity_score": activity_score
+        }
+    }
+
+
+
+
+
+
+
+@app.route("/github-score/<username>")
+def github_score(username):
+    result = calculate_github_score(username)
+    return result
+
+if __name__ == "__main__":
+    app.run(debug=True)
 
 
 
