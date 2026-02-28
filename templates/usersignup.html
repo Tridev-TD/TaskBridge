@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fresher Registration</title>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -99,6 +100,15 @@
             margin-bottom: 6px;
             color: #666;
             margin-top: 5px;
+        }
+
+        #loader {
+            display: none;
+            /* hide by default */
+            text-align: center;
+            color: #007BFF;
+            font-weight: 600;
+            margin-top: 10px;
         }
 
         input,
@@ -215,7 +225,16 @@
 
                 <div class="full-width">
                     <label class="input-label">Upload Resume</label>
-                    <input type="file" name="resume" accept=".pdf,.doc,.docx,.jpg,.png" required>
+                    <input type="file" id="resumeInput" name="resume" accept=".pdf,.doc,.docx,.jpg,.png" required>
+                    <button type="button" onclick="processResume()">Scan & Analyze</button>
+                    <div id="loader">Processing OCR... Please wait (this may take a minute)</div>
+                    <input type="hidden" name="ats_score" id="ats_score">
+
+
+                    <div id="result-container">
+                        <h3 id="scoreText"></h3>
+                        <p id="feedback"></p>
+                    </div>
                 </div>
 
                 <div>
@@ -235,13 +254,105 @@
     </div>
 
     <script>
+        async function processResume() {
+            const fileInput = document.getElementById("resumeInput");
+            const loader = document.getElementById("loader");
+            const resultDiv = document.getElementById("result-container");
+
+            if (!fileInput.files[0]) {
+                alert("Please select a resume image first.");
+                return;
+            }
+
+            loader.style.display = "block";
+            resultDiv.style.display = "none";
+
+            try {
+                const file = fileInput.files[0];
+                const { data: { text } } = await Tesseract.recognize(
+                    file,
+                    'eng',
+                    {
+                        logger: m => console.log(m),
+                        workerPath: 'https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/worker.min.js',
+                        corePath: 'https://cdn.jsdelivr.net/npm/tesseract.js-core@4/tesseract-core.wasm.js',
+                    }
+                );
+
+                const score = calculateATS(text);
+                displayResults(score);
+
+            } catch (error) {
+                console.error("OCR Error:", error);
+                alert("Error scanning the image. Please try again.");
+            } finally {
+                loader.style.display = "none";
+            }
+        }
+
+        function calculateATS(text) {
+            const keywords = [
+                "python", "java", "sql", "html", "css", "javascript", "react", "node",
+                "mongodb", "machine learning", "git", "aws", "docker", "api", "flask",
+                "django", "linux", "rest", "cloud", "devops", "problem solving"
+            ];
+
+            const cleanText = text.toLowerCase();
+            let matchCount = 0;
+
+            keywords.forEach(word => {
+                if (cleanText.includes(word)) matchCount++;
+            });
+
+            const target = 10;
+            let finalScore = Math.round((matchCount / target) * 100);
+            return finalScore > 100 ? 100 : finalScore;
+        }
+
+        function displayResults(score) {
+            const resultDiv = document.getElementById("result-container");
+            const scoreText = document.getElementById("scoreText");
+            const feedback = document.getElementById("feedback");
+
+            resultDiv.style.display = "block";
+            scoreText.innerText = "ATS Match Score: " + score + "%";
+
+            document.getElementById("ats_score").value = score;
+
+
+            if (score >= 70) {
+                resultDiv.className = "high-score";
+                feedback.innerText = "Great! Your resume is well-optimized for technical roles.";
+            } else {
+                resultDiv.className = "low-score";
+                feedback.innerText = "Try adding more industry keywords like 'Cloud', 'SQL', or 'API' to improve your score.";
+            }
+        }
+
         const form = document.getElementById('signupForm');
         const box = document.getElementById('box');
         const pass = document.getElementById('password');
         const conf = document.getElementById('confirm_password');
         const error = document.getElementById('error');
 
+
         form.addEventListener('submit', (e) => {
+            const atsScore = document.getElementById("ats_score").value;
+
+            if (!atsScore) {
+                e.preventDefault();
+                alert("Please click 'Scan & Analyze' before creating account.");
+                return;
+            }
+
+            if (pass.value !== conf.value) {
+                e.preventDefault();
+                error.style.display = 'block';
+                box.classList.add('shake');
+                conf.style.borderColor = '#ff4d4d';
+                setTimeout(() => box.classList.remove('shake'), 300);
+            }
+
             if (pass.value !== conf.value) {
                 e.preventDefault();
                 error.style.display = 'block';
