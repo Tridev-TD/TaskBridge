@@ -288,6 +288,78 @@ def login_post():
     return render_template('login.html', error="Invalid Credentials ❌")
 
 
+@app.route("/getTasks", methods=["GET"])
+def get_tasks():
+
+    conn = sqlite3.connect("auth.db")
+    conn.row_factory = sqlite3.Row   # ✅ FIX
+
+    rows = conn.execute("""
+        SELECT 
+            TID,
+            TITLE,
+            DESCR,
+            DEADLINE,
+            SKILLSET,
+            STATUS,
+            ELIGBILITY,
+            ORGID
+        FROM TASKS
+        ORDER BY APPLIJOIN DESC
+    """).fetchall()
+
+    tasks = []
+
+    for row in rows:
+        tasks.append({
+            "taskId": row["TID"],
+            "name": row["TITLE"],
+            "desc": row["DESCR"],
+            "due": row["DEADLINE"],
+            "skill": row["SKILLSET"],
+            "minAts": row["ELIGBILITY"],
+            "by": row["ORGID"]
+        })
+
+    return jsonify(tasks)
+
+
+# ✅ Explore placements (same table, different format)
+@app.route("/getPlacements", methods=["GET"])
+def get_placements():
+
+    conn = sqlite3.connect("auth.db")
+    conn.row_factory = sqlite3.Row   # ✅ FIX
+
+    rows = conn.execute("""
+        SELECT 
+            TID,
+            TITLE,
+            DESCR,
+            DEADLINE,
+            SKILLSET,
+            STATUS,
+            ELIGBILITY,
+            ORGID
+        FROM TASKS
+        ORDER BY APPLIJOIN DESC
+    """).fetchall()
+
+    placements = []
+
+    for row in rows:
+        placements.append({
+            "type": "others",  # or derive from org
+            "name": row["TITLE"],
+            "desc": row["DESCR"],
+            "due": row["DEADLINE"],
+            "skill": row["SKILLSET"],
+            "minAts": row["ELIGBILITY"],
+            "by": row["ORGID"]
+        })
+
+    return jsonify(placements)
+
 @app.route('/companytasks')
 def company_tasks():
     return render_template('companytasks.html')

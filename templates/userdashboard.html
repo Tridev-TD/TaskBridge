@@ -427,9 +427,6 @@
             const response = await fetch("/getPlacements");
 
             placements = await response.json();
-
-            renderPlacements(placements);
-            loadPlacements();
         }
 
         async function init() {
@@ -534,6 +531,7 @@
         function closeModal() { document.getElementById('modalOverlay').style.display = 'none'; }
 
         init();
+        loadPlacements();
     </script>
 </body>
 
