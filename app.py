@@ -130,12 +130,24 @@ def login_post():
         print(db_role)
         if email == db_email and password == db_pass:
             if db_role == 0:
+                
                 return render_template('companydashboard.html', user=user)
             else:
                 return render_template('userdashboard.html', user=user)
 
     errorm="Invalid Credentials ❌"
     return render_template('login.html', error=errorm)
+
+@app.route('/companytasks')
+def company_tasks():
+    return render_template('companytasks.html')
+
+@app.route('/companycompetitions')
+def company_competitions():
+    return render_template('companycompetitions.html')
+
+
+
 
 # --- Main ---
 if __name__ == '__main__':

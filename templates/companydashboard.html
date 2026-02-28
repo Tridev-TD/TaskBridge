@@ -189,7 +189,7 @@
             <h2>Task Bridge</h2>
         </div>
         <div class="user-nav">
-            <div class="avatar">TC</div>
+            <div class="avatar">{{user[3][0] if user else 'C'}}</div>
             <a href="login.html" class="sign-out-btn">Sign Out</a>
         </div>
     </header>
@@ -197,10 +197,10 @@
     <main>
         <div class="wide-dashboard">
             <div class="user-profile-side">
-                <div class="large-avatar">AJ</div>
+                <div class="large-avatar">{{user[3][0] if user else 'C'}}</div>
                 <div class="user-details">
-                    <h2>Alex Johnson</h2>
-                    <p>Verified Talent • Junior Developer</p>
+                    <h2>{{user[3] if user else 'Company Name'}}</h2>
+                    <p>Verified Company •</p>
                 </div>
             </div>
 
@@ -227,7 +227,7 @@
         <div class="action-grid">
 
             <!-- Redirect to Add Task Page -->
-            <a href="companytasks.html" class="action-card">
+            <a href="/companytasks" class="action-card">
                 <div class="action-icon">➕</div>
                 <h3 class="action-title">Add A New Work</h3>
                 <p class="action-desc">
@@ -236,7 +236,7 @@
             </a>
 
             <!-- Redirect to Add Competition Page -->
-            <a href="companycompetitions.html" class="action-card">
+            <a href="/companycompetitions" class="action-card">
                 <div class="action-icon">📂</div>
                 <h3 class="action-title">Review Your Works</h3>
                 <p class="action-desc">

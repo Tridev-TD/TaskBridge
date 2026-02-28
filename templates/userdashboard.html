@@ -360,8 +360,8 @@
         </div>
         <div class="user-nav">
             <div class="user-info">
-                <span>Alex Johnson</span>
-                <div class="avatar">AJ</div>
+                <span>{% if user %}<p>{{ user[3] }}</p>{% endif %}</span>
+                <div class="avatar">{{user[3][0] if user else 'U'}}</div>
             </div>
             <a href="login.html" class="sign-out-btn">Sign Out</a>
         </div>
@@ -371,10 +371,10 @@
 
         <div class="wide-dashboard">
             <div class="user-profile-side">
-                <div class="large-avatar">AJ</div>
+                <div class="large-avatar">{{user[3][0] if user else 'U'}}</div>
                 <div class="user-details">
-                    <h2>Alex Johnson</h2>
-                    <p>Verified Talent • Junior Developer</p>
+                    <h2>{% if user %}<h2>{{ user[3] }}</h2>{% endif %}</h2>
+                    <p>{% if user %}<p>{{ user[4] }}</p>{% endif %}</p>
                 </div>
             </div>
 

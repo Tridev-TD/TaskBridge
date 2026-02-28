@@ -239,6 +239,21 @@ main {
     display: flex;
     gap: 15px;
 }
+.sign-out-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1.5px solid #ff4d4d;
+            color: #ff4d4d;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .sign-out-btn:hover {
+            background: #ff4d4d;
+            color: white;
+        }
 
 .approve-btn,
 .reject-btn {
@@ -269,8 +284,12 @@ main {
         <h2>Task Bridge</h2>
     </div>
     <div class="user-nav">
-        <span>Alex Johnson</span>
+        <span></span>
         <div class="avatar">AJ</div>
+        <div class="user-nav">
+            
+            <a href="login.html" class="sign-out-btn">Sign Out</a>
+        </div>
     </div>
 </header>
 
