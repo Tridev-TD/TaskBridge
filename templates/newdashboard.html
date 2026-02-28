@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard | Task Bridge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #333; min-height: 100vh; }
+
+        /* --- Navigation --- */
+        header {
+            position: fixed; top: 0; right: 0; left: 0; height: 65px;
+            background: #fff; display: flex; align-items: center;
+            justify-content: space-between; padding: 0 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); z-index: 100;
+        }
+        .logo-section h2 { font-size: 20px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; }
+        .sign-out-btn {
+            padding: 7px 15px; border-radius: 8px; border: 1.5px solid #ff4d4d;
+            color: #ff4d4d; font-size: 13px; font-weight: 600; text-decoration: none; transition: 0.3s;
+        }
+        .sign-out-btn:hover { background: #ff4d4d; color: white; }
+
+        /* --- Main Layout --- */
+        main { margin-top: 65px; padding: 30px 40px; width: 100%; max-width: 1400px; margin-inline: auto; }
+
+        /* --- NEW: HORIZONTAL WIDE DASHBOARD STATS --- */
+        .wide-dashboard {
+            background: #0f172a;
+            color: white;
+            border-radius: 24px;
+            padding: 25px 40px; /* Reduced height */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Gradient Glow behind the stats */
+        .wide-dashboard::after {
+            content: ''; position: absolute; top: -50%; left: -10%;
+            width: 40%; height: 200%; background: radial-gradient(circle, rgba(0,123,255,0.15) 0%, transparent 70%);
+            z-index: 1;
+        }
+
+        .user-profile-side {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .large-avatar {
+            width: 60px; height: 60px; border-radius: 16px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; font-weight: 700; border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .user-details h2 { font-size: 20px; font-weight: 700; }
+        .user-details p { font-size: 13px; color: #94a3b8; }
+
+        .stats-container {
+            display: flex;
+            gap: 40px;
+            z-index: 2;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            padding-left: 40px;
+        }
+
+        .stat-card { text-align: left; }
+        .stat-value { font-size: 24px; font-weight: 800; display: block; }
+        .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #64748b; }
+
+        /* --- Task Cards --- */
+        .section-title { margin-bottom: 20px; font-size: 18px; font-weight: 700; color: #1e293b; }
+        .task-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        .task-card {
+            background: white; border-radius: 20px; padding: 25px;
+            border: 1px solid #e2e8f0; transition: 0.3s;
+            display: flex; flex-direction: column;
+        }
+        .task-card:hover { transform: translateY(-5px); border-color: #3b82f6; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
+        
+        .company-tag { font-size: 10px; font-weight: 800; color: #3b82f6; text-transform: uppercase; margin-bottom: 8px; }
+        .task-title { font-size: 17px; font-weight: 700; color: #0f172a; margin-bottom: 10px; }
+        .task-desc { font-size: 13px; color: #64748b; line-height: 1.5; margin-bottom: 20px; flex: 1; }
+
+        .task-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-top: 15px; border-top: 1px solid #f1f5f9;
+        }
+        .points-badge { color: #059669; font-size: 13px; font-weight: 700; }
+        .deadline { font-size: 11px; color: #94a3b8; }
+
+        .btn-view {
+            margin-top: 15px; padding: 10px; border-radius: 10px;
+            background: #f8fafc; border: 1px solid #e2e8f0; font-size: 13px;
+            font-weight: 600; cursor: pointer; transition: 0.2s;
+        }
+        .task-card:hover .btn-view { background: #0f172a; color: #fff; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-section"><h2>TASKBRIDGE</h2></div>
+        <a href="login.html" class="sign-out-btn">Sign Out</a>
+    </header>
+
+    <main>
+        <div class="wide-dashboard">
+            <div class="user-profile-side">
+                <div class="large-avatar">AJ</div>
+                <div class="user-details">
+                    <h2>Alex Johnson</h2>
+                    <p>Verified Talent • Junior Developer</p>
+                </div>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <span class="stat-value">2,450</span>
+                    <span class="stat-label">Points Earned</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value">12</span>
+                    <span class="stat-label">Completed Tasks</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value">3</span>
+                    <span class="stat-label">Active Bounties</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-value">Top 5%</span>
+                    <span class="stat-label">Global Rank</span>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="section-title">Available Opportunities</h3>
+        
+        <div class="task-grid">
+            <div class="task-card">
+                <span class="company-tag">Google Cloud</span>
+                <h3 class="task-title">API Gateway Security</h3>
+                <p class="task-desc">Implement OAuth2.0 flows for a distributed microservice architecture using Go.</p>
+                <div class="task-footer">
+                    <span class="points-badge">+ 600 Pts</span>
+                    <span class="deadline">2 Days left</span>
+                </div>
+                <button class="btn-view">View Challenge</button>
+            </div>
+
+            <div class="task-card">
+                <span class="company-tag">OpenAI</span>
+                <h3 class="task-title">RLHF Training Module</h3>
+                <p class="task-desc">Fine-tune a small language model using a custom feedback loop dataset.</p>
+                <div class="task-footer">
+                    <span class="points-badge">+ 1,500 Pts</span>
+                    <span class="deadline">5 Days left</span>
+                </div>
+                <button class="btn-view">View Challenge</button>
+            </div>
+
+            <div class="task-card">
+                <span class="company-tag">Stripe</span>
+                <h3 class="task-title">Fraud Detection UI</h3>
+                <p class="task-desc">Build a real-time monitoring dashboard for flagging high-risk transactions.</p>
+                <div class="task-footer">
+                    <span class="points-badge">+ 800 Pts</span>
+                    <span class="deadline">12 Hours left</span>
+                </div>
+                <button class="btn-view">View Challenge</button>
+            </div>
+
+            <div class="task-card">
+                <span class="company-tag">Tesla</span>
+                <h3 class="task-title">Vector Map Parser</h3>
+                <p class="task-desc">Optimize the processing speed of GeoJSON map data for navigation units.</p>
+                <div class="task-footer">
+                    <span class="points-badge">+ 950 Pts</span>
+                    <span class="deadline">1 Week left</span>
+                </div>
+                <button class="btn-view">View Challenge</button>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
