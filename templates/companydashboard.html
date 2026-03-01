@@ -224,8 +224,13 @@
         </div>
 
         <!-- ADD TASK BUTTON (NO UI CHANGE TO EXISTING) -->
-        <div style="margin-bottom:20px;">
-            <button class="primary-btn" onclick="openAddTaskModal()">+ Add Task</button>
+        <div style="display: flex;gap: 760px;">
+            <div style="margin-bottom:20px;">
+                <button class="primary-btn" onclick="openAddTaskModal()">+ Add Task</button>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <a href="/review"><button class="primary-btn" onclick="review()">Review</button></a>
+            </div>
         </div>
 
         <div class="section-header">
@@ -321,44 +326,44 @@
         // example addTask function
         function addTask() {
 
-    const sysdate = new Date();
+            const sysdate = new Date();
 
-    const formattedSysdate = sysdate.getFullYear() + "-" +
-        String(sysdate.getMonth() + 1).padStart(2, '0') + "-" +
-        String(sysdate.getDate()).padStart(2, '0') + " " +
-        String(sysdate.getHours()).padStart(2, '0') + ":" +
-        String(sysdate.getMinutes()).padStart(2, '0') + ":" +
-        String(sysdate.getSeconds()).padStart(2, '0');
+            const formattedSysdate = sysdate.getFullYear() + "-" +
+                String(sysdate.getMonth() + 1).padStart(2, '0') + "-" +
+                String(sysdate.getDate()).padStart(2, '0') + " " +
+                String(sysdate.getHours()).padStart(2, '0') + ":" +
+                String(sysdate.getMinutes()).padStart(2, '0') + ":" +
+                String(sysdate.getSeconds()).padStart(2, '0');
 
-    const task = {
-        taskId: parseInt(document.getElementById("taskId").value),
-        title: document.getElementById("taskTitle").value,
-        description: document.getElementById("taskDesc").value,
-        deadline: document.getElementById("deadline").value,
-        joinDate: formattedSysdate, 
-        skillsets: document.getElementById("skillsets").value,
-        eligibilityScore: parseInt(document.getElementById("eligibilityScore").value),
-        orgId: document.getElementById("orgId").value
-    };
+            const task = {
+                taskId: parseInt(document.getElementById("taskId").value),
+                title: document.getElementById("taskTitle").value,
+                description: document.getElementById("taskDesc").value,
+                deadline: document.getElementById("deadline").value,
+                joinDate: formattedSysdate,
+                skillsets: document.getElementById("skillsets").value,
+                eligibilityScore: parseInt(document.getElementById("eligibilityScore").value),
+                orgId: document.getElementById("orgId").value
+            };
 
-    fetch("/add-task", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(task)
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message);
-        closeTaskModal();
-    })
-    .catch(error => {
-        console.error("Error:", error);
-    });
-}
+            fetch("/add-task", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(task)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    closeTaskModal();
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+        }
 
-        
+
     </script>
 
     <script>
@@ -447,7 +452,7 @@
             init();
         }
 
-        
+
 
         // function addTask() {
         //     const title = document.getElementById('taskTitle').value;

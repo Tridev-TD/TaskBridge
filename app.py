@@ -1,4 +1,4 @@
-from flask import Flask, flash, render_template, request
+from flask import Flask, flash, render_template, request, session
 import sqlite3
 import os
 import requests
@@ -71,6 +71,8 @@ def login():
 @app.route('/user-signup')
 def user_signup():
     return render_template('usersignup.html')
+
+
 
 @app.route('/companytask')
 def company_task():
@@ -269,7 +271,10 @@ def login_post():
             user = cursor.fetchone()
 
             if user:
-                if password == user[4]:   # pass column index in users table
+                if password == user[4]:
+                    userid=user[0]
+                    session['userid'] = userid  # store in session
+   # pass column index in users table
                     return render_template('userdashboard.html', user=user)
 
             # 2️⃣ If not in users, check in org table
@@ -286,6 +291,22 @@ def login_post():
 
     # ❌ If nothing matched
     return render_template('login.html', error="Invalid Credentials ❌")
+
+@app.route('/profile')
+def profile():
+    userid = session.get('userid')
+    if not userid:
+        # Not logged in → redirect to login or show error
+        return render_template('login.html', error="Please login first ❌")
+
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE ID = ?", (userid,))
+    user = cursor.fetchone()
+    conn.close()
+
+    return render_template('userprofile.html', user=user)
 
 
 @app.route("/getTasks", methods=["GET"])
@@ -385,6 +406,10 @@ def set_status():
 @app.route('/companytasks')
 def company_tasks():
     return render_template('companytasks.html')
+
+@app.route('/review')
+def review():
+    return render_template('review.html')
 
 @app.route('/companycompetitions')
 def company_competitions():

@@ -372,13 +372,16 @@
                 <div class="main-avatar">{{user[1][0]}}</div>
                 <div>
                     <h2 style="font-size:28px; font-weight:800;">{{user[1]}}</h2>
-                    <p style="color: #94a3b8; font-weight:500;">{{user[7]}}• 82% ATS</p>
+                    <p style="color: #94a3b8; font-weight:500;">{{user[7]}} • <a
+                            style="color: white; text-decoration: none;" href="/profile">View
+                            Profile</a></p>
                 </div>
             </div>
             <div class="stats-grid" style="display:flex;">
                 <!-- <div class="stat-item"><span class="stat-value">2</span><span class="stat-label">Tasks Done</span>
                 </div> -->
-                <div class="stat-item"><span class="stat-value">1</span><span class="stat-label">Placement</span></div>
+                <div class="stat-item"><span class="stat-value">15</span><span class="stat-label">Days Remaining</span>
+                </div>
                 <div class="stat_item"><span class="stat-value">{{user[8]}}</span><span class="stat-label">GIT
                         Score </span></div>
                 <div class="stat_item"><span class="stat-value">{{user[9]}}</span><span class="stat-label">ATS
@@ -388,11 +391,13 @@
             </div>
         </div>
         <style>
-            .stat-label, .stat-value {
+            .stat-label,
+            .stat-value {
                 margin-left: 10px;
                 margin-right: 10px;
             }
-             .stat-value {
+
+            .stat-value {
                 margin-left: 10px;
                 margin-right: 10px;
             }
@@ -414,6 +419,11 @@
                 <button class="toggle-btn" onclick="filterTasks('municipal', this)">Municipal</button>
                 <button class="toggle-btn" onclick="filterTasks('others', this)">Others</button>
             </div>
+            <div class="card-actions-container" style="display: flex; gap: 10px; margin-bottom: 15px;">
+                <button class="primary-btn" onclick="alert('Enabled Auto Assign')">Enable Auto Assign</button>
+                <button class="primary-btn" onclick="alert('Disabled Auto Assign')">Disable Auto Assign</button>
+            </div>
+
             <div class="task-list" id="explorer-container"></div>
         </section>
     </main>
@@ -428,7 +438,7 @@
     </div>
 
     <script>
-        
+
         const userAts = "{{user[10]}}";
         const userSkills = ['Python', 'SQL', 'React'];
 
@@ -501,13 +511,13 @@
                 const card = document.createElement('div');
                 card.className = 'long-card';
                 card.style.animationDelay = `${index * 0.1}s`;
-                card.onclick = () => openModal(task, isEligible);
+                // card.onclick = () => openModal(task, isEligible);
                 card.innerHTML = `
                 <div class="card-main-info">
                     <span class="company-name">${task.by}</span>
                     <h3 class="task-name">${task.name}</h3>
                     <div class="elig-tag ${isEligible ? 'elig-ok' : 'elig-no'}">
-                        ${isEligible ? '✓ Match' : '✕ Requires ' + task.minAts + '% ATS'}
+                        ${isEligible ? '✓ Match' : '✕ Requires ' + task.minAts + ' PS'}
                     </div>
                 </div>
                 <div class="card-meta">
@@ -515,27 +525,27 @@
                     <p style="font-weight:700;">${task.skill}</p>
                 </div>
                 <div class="card-action">
-                    <button class="primary-btn" style="${!isEligible ? 'background:#cbd5e1; cursor:not-allowed;' : ''}">
-                        ${isEligible ? 'Apply' : 'Locked'}
+                    <button class="primary-btn" style="${!isEligible ? 'background:#cbd5e1; cursor:not-allowed;' : 'background:#3e9f23; cursor:not-allowed'}">
+                        ${isEligible ? 'Eligible' : 'Ineligible'}
                     </button>
                 </div>
             `;
                 container.appendChild(card);
             });
         }
-        function setstatus(){
-                fetch("/setStatus", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        userId: "{{user[0]}}",
-                        taskId: 1
-                    })
-                }).then(res => res.json())
+        function setstatus() {
+            fetch("/setStatus", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    userId: "{{user[0]}}",
+                    taskId: 1
+                })
+            }).then(res => res.json())
                 .then(data => {
-                    if(data.success){
+                    if (data.success) {
                         alert("Application Successful!");
                         closeModal();
                         init();

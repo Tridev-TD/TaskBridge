@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Bridge | Performance Review</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #eff6ff;
+            --bg-main: #f1f5f9;
+            --card-surface: #ffffff;
+            --border-color: #e2e8f0;
+            --text-main: #0f172a;
+            --text-dim: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-main);
+        }
+
+        header {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .sign-out {
+            font-size: 14px;
+            color: var(--text-dim);
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .sign-out:hover {
+            color: var(--primary);
+        }
+
+        .top-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* HERO BANNER */
+        .dashboard-container {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border-radius: 30px;
+            padding: 40px;
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .main-avatar {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 800;
+            color: #60a5fa;
+            flex-shrink: 0;
+        }
+
+        .stat-item {
+            text-align: left;
+            padding: 0 25px;
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-value {
+            font-size: 26px;
+            font-weight: 800;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #94a3b8;
+            letter-spacing: 1px;
+        }
+
+        /* SECTION HEADER */
+        .section-header {
+            margin: 30px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-header h3 {
+            font-size: 14px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            white-space: nowrap;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .section-header .line {
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        /* CANDIDATE LONG CARD */
+        .long-card {
+            background: var(--card-surface);
+            padding: 24px 30px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-left: 8px solid var(--primary);
+            margin-bottom: 28px;
+        }
+
+        .company-name {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--primary);
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .task-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 4px 0;
+        }
+
+        /* FORM CARDS */
+        .form-card {
+            background: var(--card-surface);
+            border-radius: 20px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-card-head {
+            padding: 18px 28px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8fafc;
+        }
+
+        .form-card-head h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-num {
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .form-card-body {
+            padding: 28px;
+        }
+
+        /* STAR RATINGS */
+        .rating-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .rating-item label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-dim);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .star-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stars {
+            display: flex;
+            flex-direction: row-reverse;
+            gap: 2px;
+        }
+
+        .stars input[type="radio"] {
+            display: none;
+        }
+
+        .stars label {
+            font-size: 20px;
+            color: #e2e8f0;
+            cursor: pointer;
+            transition: color 0.15s, transform 0.15s;
+            line-height: 1;
+        }
+
+        .stars label:hover,
+        .stars label:hover~label,
+        .stars input:checked~label {
+            color: #f59e0b;
+        }
+
+        .stars label:hover {
+            transform: scale(1.15);
+        }
+
+        .score-pill {
+            background: var(--primary-light);
+            color: var(--primary);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 13px;
+            font-weight: 800;
+            min-width: 38px;
+            text-align: center;
+        }
+
+        /* SLIDER */
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text-dim);
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+            transition: transform 0.15s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .range-display {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        /* INPUTS */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-dim);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
+            color: var(--text-main);
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: #fafafa;
+            min-height: 90px;
+            line-height: 1.6;
+        }
+
+        textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+            background: white;
+        }
+
+        textarea::placeholder {
+            color: #b0bec5;
+        }
+
+        /* SKILL TAGS */
+        .skill-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-tag {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dim);
+            transition: all 0.2s;
+            background: #fafafa;
+            user-select: none;
+        }
+
+        .skill-tag:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .skill-tag input {
+            display: none;
+        }
+
+        .skill-tag.checked {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* RECOMMENDATION */
+        .rec-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .rec-option {
+            cursor: pointer;
+        }
+
+        .rec-option input {
+            display: none;
+        }
+
+        .rec-card {
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.2s;
+            background: #fafafa;
+        }
+
+        .rec-card .rec-icon {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .rec-card .rec-title {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .rec-card .rec-sub {
+            font-size: 12px;
+            color: var(--text-dim);
+            font-weight: 500;
+        }
+
+        .rec-option.yes input:checked+.rec-card {
+            border-color: var(--success);
+            background: #f0fdf4;
+        }
+
+        .rec-option.yes input:checked+.rec-card .rec-title {
+            color: var(--success);
+        }
+
+        .rec-option.no input:checked+.rec-card {
+            border-color: var(--warning);
+            background: #fffbeb;
+        }
+
+        .rec-option.no input:checked+.rec-card .rec-title {
+            color: var(--warning);
+        }
+
+        /* SCORE SUMMARY */
+        .score-bar {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border-radius: 20px;
+            padding: 24px 32px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+        }
+
+        .score-bar .formula {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        .score-bar .formula strong {
+            color: white;
+        }
+
+        .score-bar .big-score {
+            font-size: 40px;
+            font-weight: 800;
+            color: #60a5fa;
+            line-height: 1;
+        }
+
+        .score-bar .score-lbl {
+            font-size: 10px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* BUTTONS */
+        .primary-btn {
+            background: var(--primary);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .primary-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .secondary-btn {
+            background: white;
+            color: var(--text-dim);
+            padding: 14px 28px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .secondary-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .btn-note {
+            margin-left: auto;
+            font-size: 12px;
+            color: var(--text-dim);
+            font-weight: 500;
+            max-width: 240px;
+            text-align: right;
+            line-height: 1.5;
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 480px;
+            text-align: center;
+        }
+
+        .modal-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #f0fdf4;
+            border: 2px solid var(--success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin: 0 auto 20px;
+        }
+
+        .modal h2 {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .modal p {
+            color: var(--text-dim);
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .modal-score-box {
+            background: var(--primary-light);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .modal-score-box .num {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .modal-score-box .lbl {
+            font-size: 11px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 640px) {
+            .rating-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rec-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .score-bar {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+
+            .btn-row {
+                flex-wrap: wrap;
+            }
+
+            .btn-note {
+                margin-left: 0;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">TASK BRIDGE</div>
+        <div class="header-right">
+            <a href="login.html"><span class="sign-out">Sign Out</span></a>
+            <div class="top-avatar">T</div>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- HERO BANNER -->
+        <div class="dashboard-container">
+            <div style="display:flex; align-items:center; gap:20px;">
+                <div class="main-avatar">RK</div>
+                <div>
+                    <p
+                        style="font-size:11px; text-transform:uppercase; color:#94a3b8; letter-spacing:1px; margin-bottom:6px;">
+                        NGO Mentor Review</p>
+                    <h2 style="font-size:26px; font-weight:800;">Ravi Kumar</h2>
+                    <p style="color:#94a3b8; font-weight:500; margin-top:4px;">Web Development · TechHope NGO, Bangalore
+                    </p>
+                </div>
+            </div>
+            <div style="display:flex;">
+                <div class="stat-item">
+                    <div class="stat-value">47</div>
+                    <div class="stat-label">Resume Score</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">2 / 4</div>
+                    <div class="stat-label">Cycle</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="heroFinal">57</div>
+                    <div class="stat-label">Final Score</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION HEADER -->
+        <div class="section-header">
+            <h3>Performance Evaluation</h3>
+            <div class="line"></div>
+        </div>
+
+        <!-- CANDIDATE CARD -->
+        <div class="long-card">
+            <div>
+                <span class="company-name">TechHope NGO</span>
+                <h3 class="task-name">Ravi Kumar</h3>
+                <p style="color:var(--text-dim); font-weight:600; font-size:14px;">Frontend Developer · Jan 15 – Jan 30,
+                    2025</p>
+            </div>
+            <div style="text-align:center;">
+                <span
+                    style="font-size:11px; color:var(--text-dim); text-transform:uppercase; font-weight:700; display:block; margin-bottom:4px;">Assignment</span>
+                <p style="font-weight:800; color:var(--primary); font-size:14px;">Build NGO Donation Portal</p>
+            </div>
+            <div style="text-align:center;">
+                <span
+                    style="font-size:11px; color:var(--text-dim); text-transform:uppercase; font-weight:700; display:block; margin-bottom:4px;">Duration</span>
+                <p style="font-weight:800; font-size:14px;">15 Days</p>
+            </div>
+        </div>
+
+        <!-- SECTION 1: RATINGS -->
+        <div class="form-card">
+            <div class="form-card-head">
+                <h4><span class="step-num">1</span> Performance Ratings</h4>
+                <span style="font-size:12px; color:var(--text-dim); font-weight:600;">Rate each area out of 10</span>
+            </div>
+            <div class="form-card-body">
+                <div class="rating-grid">
+
+                    <div class="rating-item">
+                        <label>Technical Skills</label>
+                        <div class="star-row">
+                            <div class="stars">
+                                <label for="t10">★</label><input type="radio" name="tech" id="t10" value="10">
+                                <label for="t9">★</label><input type="radio" name="tech" id="t9" value="9">
+                                <label for="t8">★</label><input type="radio" name="tech" id="t8" value="8">
+                                <label for="t7">★</label><input type="radio" name="tech" id="t7" value="7">
+                                <label for="t6">★</label><input type="radio" name="tech" id="t6" value="6">
+                                <label for="t5">★</label><input type="radio" name="tech" id="t5" value="5">
+                                <label for="t4">★</label><input type="radio" name="tech" id="t4" value="4">
+                                <label for="t3">★</label><input type="radio" name="tech" id="t3" value="3">
+                                <label for="t2">★</label><input type="radio" name="tech" id="t2" value="2">
+                                <label for="t1">★</label><input type="radio" name="tech" id="t1" value="1">
+                            </div>
+                            <div class="score-pill" id="score-tech">—</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-item">
+                        <label>Communication</label>
+                        <div class="star-row">
+                            <div class="stars">
+                                <label for="c10">★</label><input type="radio" name="comm" id="c10" value="10">
+                                <label for="c9">★</label><input type="radio" name="comm" id="c9" value="9">
+                                <label for="c8">★</label><input type="radio" name="comm" id="c8" value="8">
+                                <label for="c7">★</label><input type="radio" name="comm" id="c7" value="7">
+                                <label for="c6">★</label><input type="radio" name="comm" id="c6" value="6">
+                                <label for="c5">★</label><input type="radio" name="comm" id="c5" value="5">
+                                <label for="c4">★</label><input type="radio" name="comm" id="c4" value="4">
+                                <label for="c3">★</label><input type="radio" name="comm" id="c3" value="3">
+                                <label for="c2">★</label><input type="radio" name="comm" id="c2" value="2">
+                                <label for="c1">★</label><input type="radio" name="comm" id="c1" value="1">
+                            </div>
+                            <div class="score-pill" id="score-comm">—</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-item">
+                        <label>Teamwork</label>
+                        <div class="star-row">
+                            <div class="stars">
+                                <label for="tw10">★</label><input type="radio" name="teamwork" id="tw10" value="10">
+                                <label for="tw9">★</label><input type="radio" name="teamwork" id="tw9" value="9">
+                                <label for="tw8">★</label><input type="radio" name="teamwork" id="tw8" value="8">
+                                <label for="tw7">★</label><input type="radio" name="teamwork" id="tw7" value="7">
+                                <label for="tw6">★</label><input type="radio" name="teamwork" id="tw6" value="6">
+                                <label for="tw5">★</label><input type="radio" name="teamwork" id="tw5" value="5">
+                                <label for="tw4">★</label><input type="radio" name="teamwork" id="tw4" value="4">
+                                <label for="tw3">★</label><input type="radio" name="teamwork" id="tw3" value="3">
+                                <label for="tw2">★</label><input type="radio" name="teamwork" id="tw2" value="2">
+                                <label for="tw1">★</label><input type="radio" name="teamwork" id="tw1" value="1">
+                            </div>
+                            <div class="score-pill" id="score-teamwork">—</div>
+                        </div>
+                    </div>
+
+                    <div class="rating-item">
+                        <label>Work Ethic</label>
+                        <div class="star-row">
+                            <div class="stars">
+                                <label for="we10">★</label><input type="radio" name="ethic" id="we10" value="10">
+                                <label for="we9">★</label><input type="radio" name="ethic" id="we9" value="9">
+                                <label for="we8">★</label><input type="radio" name="ethic" id="we8" value="8">
+                                <label for="we7">★</label><input type="radio" name="ethic" id="we7" value="7">
+                                <label for="we6">★</label><input type="radio" name="ethic" id="we6" value="6">
+                                <label for="we5">★</label><input type="radio" name="ethic" id="we5" value="5">
+                                <label for="we4">★</label><input type="radio" name="ethic" id="we4" value="4">
+                                <label for="we3">★</label><input type="radio" name="ethic" id="we3" value="3">
+                                <label for="we2">★</label><input type="radio" name="ethic" id="we2" value="2">
+                                <label for="we1">★</label><input type="radio" name="ethic" id="we1" value="1">
+                            </div>
+                            <div class="score-pill" id="score-ethic">—</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: OVERALL RATING -->
+        <div class="form-card">
+            <div class="form-card-head">
+                <h4><span class="step-num">2</span> Overall Rating</h4>
+                <span style="font-size:12px; color:var(--text-dim); font-weight:600;">Used in final score formula</span>
+            </div>
+            <div class="form-card-body">
+                <div class="slider-labels">
+                    <span>Poor</span><span>Average</span><span>Good</span><span>Excellent</span>
+                </div>
+                <input type="range" id="overallSlider" min="1" max="10" value="5" oninput="updateOverall(this.value)">
+                <div class="range-display" id="overallDisplay">5 / 10</div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: SKILLS -->
+        <div class="form-card">
+            <div class="form-card-head">
+                <h4><span class="step-num">3</span> Skills Demonstrated</h4>
+            </div>
+            <div class="form-card-body">
+                <div class="form-group">
+                    <label>Select all that applied during this cycle</label>
+                    <div class="skill-grid">
+                        <label class="skill-tag"><input type="checkbox"> HTML / CSS</label>
+                        <label class="skill-tag"><input type="checkbox"> JavaScript</label>
+                        <label class="skill-tag"><input type="checkbox"> Python</label>
+                        <label class="skill-tag"><input type="checkbox"> React</label>
+                        <label class="skill-tag"><input type="checkbox"> SQL</label>
+                        <label class="skill-tag"><input type="checkbox"> Git / VCS</label>
+                        <label class="skill-tag"><input type="checkbox"> API Integration</label>
+                        <label class="skill-tag"><input type="checkbox"> Problem Solving</label>
+                        <label class="skill-tag"><input type="checkbox"> Documentation</label>
+                        <label class="skill-tag"><input type="checkbox"> Testing</label>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:20px;">
+                    <label>Task Completion Summary</label>
+                    <textarea
+                        placeholder="Which tasks were assigned and completed during the 15-day micro internship?"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 4: COMMENTS & RECOMMENDATION -->
+        <div class="form-card">
+            <div class="form-card-head">
+                <h4><span class="step-num">4</span> Comments & Recommendation</h4>
+            </div>
+            <div class="form-card-body">
+                <div class="form-group">
+                    <label>Detailed Feedback</label>
+                    <textarea rows="4"
+                        placeholder="Describe the candidate's performance, standout moments, and growth during this cycle..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Areas for Improvement</label>
+                    <textarea rows="3"
+                        placeholder="What should this candidate focus on in their next cycle or before company placement?"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Ready for Company Placement?</label>
+                    <div class="rec-grid">
+                        <label class="rec-option yes">
+                            <input type="radio" name="recommendation" value="yes">
+                            <div class="rec-card">
+                                <span class="rec-icon">✅</span>
+                                <div class="rec-title">Yes — Recommend</div>
+                                <div class="rec-sub">Ready for company shortlisting</div>
+                            </div>
+                        </label>
+                        <label class="rec-option no">
+                            <input type="radio" name="recommendation" value="no">
+                            <div class="rec-card">
+                                <span class="rec-icon">🔄</span>
+                                <div class="rec-title">Another Cycle</div>
+                                <div class="rec-sub">Needs more experience first</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCORE BAR -->
+        <div class="score-bar">
+            <div>
+                <div
+                    style="font-size:11px; text-transform:uppercase; letter-spacing:1px; color:#94a3b8; font-weight:700; margin-bottom:6px;">
+                    Final Score Preview</div>
+                <div class="formula">Resume Score <strong>47</strong> + (Overall Rating <strong
+                        id="ratingDisplay">5</strong> × 2)</div>
+            </div>
+            <div style="text-align:right;">
+                <div class="big-score" id="finalScore">57</div>
+                <div class="score-lbl">Updated Skill Score</div>
+            </div>
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="btn-row">
+            <button class="secondary-btn">Save Draft</button>
+            <button class="primary-btn" onclick="submitReview()">Submit Evaluation →</button>
+            <div class="btn-note">Evaluation will be sent to company partners within 24 hours of submission.</div>
+        </div>
+
+    </main>
+
+    <!-- SUCCESS MODAL -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal">
+            <div class="modal-icon">✓</div>
+            <h2>Evaluation Submitted</h2>
+            <p>Ravi Kumar's performance review has been recorded. Their updated SkillBridge score will be visible to
+                shortlisted company partners.</p>
+            <div class="modal-score-box">
+                <div class="num" id="modalScore">57</div>
+                <div class="lbl">Updated Skill Score</div>
+            </div>
+            <button class="primary-btn" style="width:100%;" onclick="closeModal()">Back to Dashboard</button>
+            <button class="secondary-btn" style="width:100%; margin-top:10px;" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        const RESUME_SCORE = 47;
+        let overallRating = 5;
+
+        function updateOverall(val) {
+            overallRating = parseInt(val);
+            document.getElementById('overallDisplay').textContent = val + ' / 10';
+            document.getElementById('ratingDisplay').textContent = val;
+            const final = RESUME_SCORE + (overallRating * 2);
+            document.getElementById('finalScore').textContent = final;
+            document.getElementById('heroFinal').textContent = final;
+            document.getElementById('modalScore').textContent = final;
+        }
+
+        ['tech', 'comm', 'teamwork', 'ethic'].forEach(group => {
+            document.querySelectorAll(`input[name="${group}"]`).forEach(input => {
+                input.addEventListener('change', () => {
+                    document.getElementById(`score-${group}`).textContent = input.value;
+                });
+            });
+        });
+
+        document.querySelectorAll('.skill-tag').forEach(tag => {
+            tag.addEventListener('click', () => tag.classList.toggle('checked'));
+        });
+
+        function submitReview() {
+            const rec = document.querySelector('input[name="recommendation"]:checked');
+            if (!rec) { alert('Please select a recommendation before submitting.'); return; }
+            document.getElementById('successModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('show');
+        }
+
+        updateOverall(5);
+    </script>
+
+</body>
+
+</html>
